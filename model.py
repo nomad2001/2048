@@ -23,5 +23,31 @@ class Igra:
             self.tabela = [[0 for i in range(velikost)] for i in range(velikost)]
             generirarajNakljucnoPozicijoInStevilo(self.velikost,self.tabela)
             generirarajNakljucnoPozicijoInStevilo(self.velikost,self.tabela)
+    
+    def premakniLevo(self):
+        for i in range(self.velikost):
+            prostaMesta = []
+            prvoSeVednoProstoMesto = 0
+            for j in range(self.velikost):
+                if self.tabela[i][j] == 0:
+                    prostaMesta.append(j)
+                elif len(prostaMesta) != 0:
+                    if prostaMesta[prvoSeVednoProstoMesto] == 0:
+                        self.tabela[i][0] = self.tabela[i][j]
+                        self.tabela[i][j] = 0
+                        prostaMesta.append(j)
+                        prvoSeVednoProstoMesto += 1
+                    else:
+                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto - 1]] == self.tabela[i][j]:
+                            self.tabela[i][prostaMesta[prvoSeVednoProstoMesto - 1]] *= 2
+                            self.tabela[i][j] = 0
+                            prostaMesta.append(j)
+                        else:
+                            self.tabela[i][prostaMesta[prvoSeVednoProstoMesto]] = self.tabela[i][j]
+                            self.tabela[i][j] = 0
+                            prostaMesta.append(j)
+                            prvoSeVednoProstoMesto += 1
+
+
 
 
