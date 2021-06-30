@@ -193,17 +193,17 @@ class Igra:
     
     def premakni(self, smer):
         if smer == GOR:
-            self.premakniGor()
-            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
+            if self.premakniGor():
+                generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         elif smer == DOL:
-            self.premakniDol()
-            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
+            if self.premakniDol():
+                generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         elif smer == DESNO:
-            self.premakniDesno()
-            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
+            if self.premakniDesno():
+                generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         elif smer == LEVO:
-            self.premakniLevo()
-            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
+            if self.premakniLevo():
+                generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         else:
             return NEOBSTOJECA_SMER
         
