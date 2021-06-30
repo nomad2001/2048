@@ -34,6 +34,22 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     else:
         tabela[x][y] = 2
 
+class Glavno:
+    def __init__(self, zacetne_igre=None, zacetni_id=0):
+        self.igre = zacetne_igre or {}
+        self.max_id = zacetni_id
+    
+    def prost_id_igre(self):
+        self.max_id += 1
+        return self.max_id
+
+    def nova_igra(self):
+        nov_id = self.prost_id_igre()
+        sveza_igra = nova_igra()
+
+        self.igre[nov_id] = sveza_igra
+        return nov_id
+
 class Igra:
     def __init__(self, velikost = 4, tabela = None, steviloTock = 0):
         self.velikost = velikost
