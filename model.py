@@ -22,8 +22,9 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
         tabela[x][y] = 2
 
 class Igra:
-    def __init__(self, velikost = 4, tabela = None):
+    def __init__(self, steviloTock = 0, velikost = 4, tabela = None):
         self.velikost = velikost
+        self.steviloTock = steviloTock
 
         if tabela == None:
             self.tabela = [[0 for i in range(velikost)] for i in range(velikost)]
@@ -48,6 +49,7 @@ class Igra:
                         prvoSeVednoProstoMesto += 1
                     else:
                         if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto ] - 1] == self.tabela[i][j]:
+                            self.steviloTock += 2 * self.tabela[i][j]
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] *= 2
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
@@ -75,6 +77,7 @@ class Igra:
                         prvoSeVednoProstoMesto += 1
                     else:
                         if self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] == self.tabela[j][i]:
+                            self.steviloTock += 2 * self.tabela[j][i]
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] *= 2
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
@@ -102,6 +105,7 @@ class Igra:
                         prvoSeVednoProstoMesto += 1
                     else:
                         if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] == self.tabela[i][j]:
+                            self.steviloTock += 2 * self.tabela[i][j]
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] *= 2
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
@@ -129,6 +133,7 @@ class Igra:
                         prvoSeVednoProstoMesto += 1
                     else:
                         if self.tabela[prostaMesta[prvoSeVednoProstoMesto] + 1][i] == self.tabela[j][i]:
+                            self.steviloTock += 2 * self.tabela[j][i]
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto] + 1][i] *= 2
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
