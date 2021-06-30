@@ -49,6 +49,11 @@ class Glavno:
 
         self.igre[nov_id] = sveza_igra
         return nov_id
+    
+    def premakni(self, id_igre, smer):
+        igra = self.igre[id_igre]
+        igra.premakni(smer)
+        self.igre[id_igre] = igra
 
 class Igra:
     def __init__(self, velikost = 4, tabela = None, steviloTock = 0):
