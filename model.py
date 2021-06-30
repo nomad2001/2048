@@ -4,6 +4,7 @@ GOR = 'U'
 DOL = 'D'
 LEVO = 'L'
 DESNO = 'R'
+KONEC_IGRE = 'E'
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     x = randrange(velikost)
@@ -28,8 +29,11 @@ class Igra:
             self.tabela = [[0 for i in range(velikost)] for i in range(velikost)]
             generirarajNakljucnoPozicijoInStevilo(self.velikost,self.tabela)
             generirarajNakljucnoPozicijoInStevilo(self.velikost,self.tabela)
+        else:
+            self.tabela = tabela
     
     def premakniLevo(self):
+        aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
             prvoSeVednoProstoMesto = 0
@@ -52,8 +56,11 @@ class Igra:
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
+                aliSeJeKateriPremaknil = True
+        return aliSeJeKateriPremaknil
         
     def premakniGor(self):
+        aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
             prvoSeVednoProstoMesto = 0
@@ -76,8 +83,11 @@ class Igra:
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
+                    aliSeJeKateriPremaknil = True
+        return aliSeJeKateriPremaknil
     
     def premakniDesno(self):
+        aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
             prvoSeVednoProstoMesto = 0
@@ -100,8 +110,11 @@ class Igra:
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
+                aliSeJeKateriPremaknil = True
+        return aliSeJeKateriPremaknil
     
     def premakniDol(self):
+        aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
             prvoSeVednoProstoMesto = 0
@@ -124,6 +137,15 @@ class Igra:
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
+                aliSeJeKateriPremaknil = True
+        return aliSeJeKateriPremaknil
+
+    def konecIgre(self):
+        kopija = Igra(self.velikost, self.tabela)
+
+        if kopija.premakniDesno() == False and kopija.premakniLevo() == False \
+            and kopija.premakniGor() == False and kopija.premakniDol() == False:
+            return True
     
     def premakni(self, smer):
         if smer == GOR:
@@ -134,3 +156,9 @@ class Igra:
             self.premakniDesno()
         elif smer == LEVO:
             self.premakniLevo()
+        
+        if self.konecIgre():
+            return KONEC_IGRE
+
+def nova_igra(velikost):
+    return Igra(velikost)
