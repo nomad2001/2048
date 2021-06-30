@@ -5,6 +5,7 @@ DOL = 'D'
 LEVO = 'L'
 DESNO = 'R'
 KONEC_IGRE = 'E'
+NEOBSTOJECA_SMER = 'N'
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     x = randrange(velikost)
@@ -161,6 +162,8 @@ class Igra:
             self.premakniDesno()
         elif smer == LEVO:
             self.premakniLevo()
+        else:
+            return NEOBSTOJECA_SMER
         
         if self.konecIgre():
             return KONEC_IGRE
