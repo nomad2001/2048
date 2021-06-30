@@ -8,6 +8,17 @@ KONEC_IGRE = 'E'
 NEOBSTOJECA_SMER = 'N'
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
+    obstajaProstoMesto = False
+
+    for i in range(velikost):
+        for j in range(velikost):
+            if tabela[i][j] == 0:
+                obstajaProstoMesto = True
+                break
+    
+    if not obstajaProstoMesto:
+        return
+    
     x = randrange(velikost)
     y = randrange(velikost)
 
@@ -156,12 +167,16 @@ class Igra:
     def premakni(self, smer):
         if smer == GOR:
             self.premakniGor()
+            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         elif smer == DOL:
             self.premakniDol()
+            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         elif smer == DESNO:
             self.premakniDesno()
+            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         elif smer == LEVO:
             self.premakniLevo()
+            generirarajNakljucnoPozicijoInStevilo(self.velikost, self.tabela)
         else:
             return NEOBSTOJECA_SMER
         
