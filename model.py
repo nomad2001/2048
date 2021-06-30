@@ -79,6 +79,7 @@ class Igra:
                     if self.tabela[i][j] == self.tabela[i][j - 1]:
                         self.tabela[i][j - 1] *= 2
                         self.tabela[i][j] = 0
+                        zeSestet[i][j - 1] = True
                         prostaMesta.append(j)
                         aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
@@ -116,6 +117,7 @@ class Igra:
                     if self.tabela[j][i] == self.tabela[j - 1][i]:
                         self.tabela[j - 1][i] *= 2
                         self.tabela[j][i] = 0
+                        zeSestet[j - 1][i] = True
                         prostaMesta.append(j)
                         aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
@@ -153,6 +155,7 @@ class Igra:
                     if self.tabela[i][j] == self.tabela[i][j + 1]:
                         self.tabela[i][j + 1] *= 2
                         self.tabela[i][j] = 0
+                        zeSestet[i][j + 1] = True
                         prostaMesta.append(j)
                         aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
@@ -190,6 +193,7 @@ class Igra:
                     if self.tabela[j][i] == self.tabela[j + 1][i]:
                         self.tabela[j + 1][i] *= 2
                         self.tabela[j][i] = 0
+                        zeSestet[j + 1][i] = True
                         prostaMesta.append(j)
                         aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
