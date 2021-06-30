@@ -23,7 +23,7 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
         tabela[x][y] = 2
 
 class Igra:
-    def __init__(self, steviloTock = 0, velikost = 4, tabela = None):
+    def __init__(self, velikost = 4, tabela = None, steviloTock = 0):
         self.velikost = velikost
         self.steviloTock = steviloTock
 
