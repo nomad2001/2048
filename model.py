@@ -72,6 +72,12 @@ class Igra:
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
                     aliSeJeKateriPremaknil = True
+                elif j != 0:
+                    if self.tabela[i][j] == self.tabela[i][j - 1]:
+                        self.tabela[i][j - 1] *= 2
+                        self.tabela[i][j] = 0
+                        prostaMesta.append(j)
+                        aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
         
     def premakniGor(self):
@@ -100,6 +106,12 @@ class Igra:
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
                     aliSeJeKateriPremaknil = True
+                elif j != 0:
+                    if self.tabela[j][i] == self.tabela[j - 1][i]:
+                        self.tabela[j - 1][i] *= 2
+                        self.tabela[j][i] = 0
+                        prostaMesta.append(j)
+                        aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
     
     def premakniDesno(self):
@@ -128,6 +140,12 @@ class Igra:
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
                     aliSeJeKateriPremaknil = True
+                elif j != self.velikost - 1:
+                    if self.tabela[i][j] == self.tabela[i][j + 1]:
+                        self.tabela[i][j + 1] *= 2
+                        self.tabela[i][j] = 0
+                        prostaMesta.append(j)
+                        aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
     
     def premakniDol(self):
@@ -156,6 +174,12 @@ class Igra:
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
                     aliSeJeKateriPremaknil = True
+                elif j != self.velikost - 1:
+                    if self.tabela[j][i] == self.tabela[j + 1][i]:
+                        self.tabela[j + 1][i] *= 2
+                        self.tabela[j][i] = 0
+                        prostaMesta.append(j)
+                        aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
 
     def konecIgre(self):
