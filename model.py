@@ -1,4 +1,5 @@
 from random import randrange
+import copy
 
 GOR = 'U'
 DOL = 'D'
@@ -60,7 +61,7 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto ] - 1] == self.tabela[i][j]:
+                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] == self.tabela[i][j]:
                             self.steviloTock += 2 * self.tabela[i][j]
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] *= 2
                             self.tabela[i][j] = 0
@@ -70,7 +71,7 @@ class Igra:
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
-                aliSeJeKateriPremaknil = True
+                    aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
         
     def premakniGor(self):
@@ -126,7 +127,7 @@ class Igra:
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
-                aliSeJeKateriPremaknil = True
+                    aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
     
     def premakniDol(self):
@@ -154,15 +155,17 @@ class Igra:
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
-                aliSeJeKateriPremaknil = True
+                    aliSeJeKateriPremaknil = True
         return aliSeJeKateriPremaknil
 
     def konecIgre(self):
-        kopija = Igra(self.velikost, self.tabela)
+        kopija = copy.deepcopy(self)
 
         if kopija.premakniDesno() == False and kopija.premakniLevo() == False \
             and kopija.premakniGor() == False and kopija.premakniDol() == False:
             return True
+        
+        return False
     
     def premakni(self, smer):
         if smer == GOR:
@@ -182,6 +185,6 @@ class Igra:
         
         if self.konecIgre():
             return KONEC_IGRE
-
+    
 def nova_igra(velikost):
     return Igra(velikost)
