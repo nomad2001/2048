@@ -38,8 +38,8 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto - 1]] == self.tabela[i][j]:
-                            self.tabela[i][prostaMesta[prvoSeVednoProstoMesto - 1]] *= 2
+                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto ] - 1] == self.tabela[i][j]:
+                            self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] *= 2
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
                         else:
@@ -62,12 +62,36 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto - 1]][i] == self.tabela[j][i]:
-                            self.tabela[prostaMesta[prvoSeVednoProstoMesto - 1]][i] *= 2
+                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] == self.tabela[j][i]:
+                            self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] *= 2
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
                         else:
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto]][i] = self.tabela[j][i]
                             self.tabela[j][i] = 0
+                            prostaMesta.append(j)
+                            prvoSeVednoProstoMesto += 1
+    
+    def premakniDesno(self):
+        for i in range(self.velikost):
+            prostaMesta = []
+            prvoSeVednoProstoMesto = 0
+            for j in range(self.velikost - 1, -1, -1):
+                if self.tabela[i][j] == 0:
+                    prostaMesta.append(j)
+                elif len(prostaMesta) != 0:
+                    if prostaMesta[prvoSeVednoProstoMesto] == self.velikost - 1:
+                        self.tabela[i][self.velikost - 1] = self.tabela[i][j]
+                        self.tabela[i][j] = 0
+                        prostaMesta.append(j)
+                        prvoSeVednoProstoMesto += 1
+                    else:
+                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] == self.tabela[i][j]:
+                            self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] *= 2
+                            self.tabela[i][j] = 0
+                            prostaMesta.append(j)
+                        else:
+                            self.tabela[i][prostaMesta[prvoSeVednoProstoMesto]] = self.tabela[i][j]
+                            self.tabela[i][j] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
