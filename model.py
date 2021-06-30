@@ -1,5 +1,10 @@
 from random import randrange
 
+GOR = 'U'
+DOL = 'D'
+LEVO = 'L'
+DESNO = 'R'
+
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     x = randrange(velikost)
     y = randrange(velikost)
@@ -119,3 +124,13 @@ class Igra:
                             self.tabela[j][i] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
+    
+    def premakni(self, smer):
+        if smer == GOR:
+            self.premakniGor()
+        elif smer == DOL:
+            self.premakniDol()
+        elif smer == DESNO:
+            self.premakniDesno()
+        elif smer == LEVO:
+            self.premakniLevo()
