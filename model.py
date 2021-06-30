@@ -47,6 +47,7 @@ class Igra:
             self.tabela = tabela
     
     def premakniLevo(self):
+        zeSestet = [[False for i in range(self.velikost)] for i in range(self.velikost)]
         aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
@@ -61,10 +62,12 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] == self.tabela[i][j]:
+                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] == self.tabela[i][j] \
+                            and not zeSestet[i][prostaMesta[prvoSeVednoProstoMesto] - 1]:
                             self.steviloTock += 2 * self.tabela[i][j]
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] - 1] *= 2
                             self.tabela[i][j] = 0
+                            zeSestet[i][prostaMesta[prvoSeVednoProstoMesto] - 1] = True
                             prostaMesta.append(j)
                         else:
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto]] = self.tabela[i][j]
@@ -81,6 +84,7 @@ class Igra:
         return aliSeJeKateriPremaknil
         
     def premakniGor(self):
+        zeSestet = [[False for i in range(self.velikost)] for i in range(self.velikost)]
         aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
@@ -95,10 +99,12 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] == self.tabela[j][i]:
+                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] == self.tabela[j][i] \
+                            and not zeSestet[prostaMesta[prvoSeVednoProstoMesto] - 1][i]:
                             self.steviloTock += 2 * self.tabela[j][i]
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto] - 1][i] *= 2
                             self.tabela[j][i] = 0
+                            zeSestet[prostaMesta[prvoSeVednoProstoMesto] - 1][i] = True
                             prostaMesta.append(j)
                         else:
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto]][i] = self.tabela[j][i]
@@ -115,6 +121,7 @@ class Igra:
         return aliSeJeKateriPremaknil
     
     def premakniDesno(self):
+        zeSestet = [[False for i in range(self.velikost)] for i in range(self.velikost)]
         aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
@@ -129,10 +136,12 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] == self.tabela[i][j]:
+                        if self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] == self.tabela[i][j] \
+                            and not zeSestet[i][prostaMesta[prvoSeVednoProstoMesto] + 1]:
                             self.steviloTock += 2 * self.tabela[i][j]
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto] + 1] *= 2
                             self.tabela[i][j] = 0
+                            zeSestet[i][prostaMesta[prvoSeVednoProstoMesto] + 1] = True
                             prostaMesta.append(j)
                         else:
                             self.tabela[i][prostaMesta[prvoSeVednoProstoMesto]] = self.tabela[i][j]
@@ -149,6 +158,7 @@ class Igra:
         return aliSeJeKateriPremaknil
     
     def premakniDol(self):
+        zeSestet = [[False for i in range(self.velikost)] for i in range(self.velikost)]
         aliSeJeKateriPremaknil = False
         for i in range(self.velikost):
             prostaMesta = []
@@ -163,10 +173,12 @@ class Igra:
                         prostaMesta.append(j)
                         prvoSeVednoProstoMesto += 1
                     else:
-                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto] + 1][i] == self.tabela[j][i]:
+                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto] + 1][i] == self.tabela[j][i] \
+                            and not zeSestet[prostaMesta[prvoSeVednoProstoMesto] + 1][i]:
                             self.steviloTock += 2 * self.tabela[j][i]
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto] + 1][i] *= 2
                             self.tabela[j][i] = 0
+                            zeSestet[prostaMesta[prvoSeVednoProstoMesto] + 1][i] = True
                             prostaMesta.append(j)
                         else:
                             self.tabela[prostaMesta[prvoSeVednoProstoMesto]][i] = self.tabela[j][i]
