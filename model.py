@@ -47,7 +47,27 @@ class Igra:
                             self.tabela[i][j] = 0
                             prostaMesta.append(j)
                             prvoSeVednoProstoMesto += 1
-
-
-
-
+        
+    def premakniGor(self):
+        for i in range(self.velikost):
+            prostaMesta = []
+            prvoSeVednoProstoMesto = 0
+            for j in range(self.velikost):
+                if self.tabela[j][i] == 0:
+                    prostaMesta.append(j)
+                elif len(prostaMesta) != 0:
+                    if prostaMesta[prvoSeVednoProstoMesto] == 0:
+                        self.tabela[0][i] = self.tabela[j][i]
+                        self.tabela[j][i] = 0
+                        prostaMesta.append(j)
+                        prvoSeVednoProstoMesto += 1
+                    else:
+                        if self.tabela[prostaMesta[prvoSeVednoProstoMesto - 1]][i] == self.tabela[j][i]:
+                            self.tabela[prostaMesta[prvoSeVednoProstoMesto - 1]][i] *= 2
+                            self.tabela[j][i] = 0
+                            prostaMesta.append(j)
+                        else:
+                            self.tabela[prostaMesta[prvoSeVednoProstoMesto]][i] = self.tabela[j][i]
+                            self.tabela[j][i] = 0
+                            prostaMesta.append(j)
+                            prvoSeVednoProstoMesto += 1
