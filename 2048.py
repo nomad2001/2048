@@ -26,7 +26,8 @@ def pred_novo_igro():
 @bottle.get("/igraj/")
 def igra():
     id_igre = 1
-    return bottle.template("igra.html", tabela = glavno.igre[id_igre].tabela)
+    return bottle.template("igra.html", tabela = glavno.igre[id_igre].tabela, \
+                    stTock = glavno.igre[id_igre].steviloTock)
 
 @bottle.post("/igraj/")
 def igraj():
