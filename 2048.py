@@ -13,26 +13,41 @@ def return_static(file_path):
 def index():
     return bottle.template("index.html")
 
-@bottle.get("/igra/")
-def pred_novo_igro():
-    id_igre = glavno.nova_igra(4)
-    bottle.redirect("/igraj/")
-
-#@bottle.post("/igra/")
-#def nova_igra():
+#@bottle.get("/igra/")
+#def pred_novo_igro():
  #   id_igre = glavno.nova_igra(4)
   #  bottle.redirect("/igraj/")
 
+@bottle.post("/igra/")
+def nova_igra():
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    id_igre = glavno.nova_igra()
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    bottle.response.set_cookie("ID_IGRE",str(id_igre),path="/",
+        secret=COOKIE_SECRET)
+    id_igre = glavno.nova_igra(4)
+    bottle.redirect("/igraj/")
+
 @bottle.get("/igraj/")
-def igra():
-    id_igre = 1
+def pokazi_igro():
+    id_igre=int(
+        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
+    )
+
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+
     return bottle.template("igra.html", tabela = glavno.igre[id_igre].tabela, \
                     stTock = glavno.igre[id_igre].steviloTock)
 
 @bottle.post("/igraj/")
 def igraj():
+    id_igre=int(
+        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
+    )
+
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     pritiski = pygame.event.get()    
-    id_igre = 1
 
     for smer in pritiski:
         if smer.type == pygame.KEYDOWN:
@@ -46,7 +61,8 @@ def igraj():
                 glavno.premakni(id_igre, 'D')
             else:
                 glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
-
+    
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
 bottle.run(reloader=True, debug=True)
