@@ -15,20 +15,23 @@ def index():
 
 @bottle.get("/igra/")
 def pred_novo_igro():
-    return bottle.template("index.html")
+    id_igre = glavno.nova_igra(4)
+    bottle.redirect("/igraj/")
 
-@bottle.post("/igra/")
-def nova_igra():
-    id_igre = glavno.nova_igra()
-    bottle.redirect("/igra/<id_igre>/")
+#@bottle.post("/igra/")
+#def nova_igra():
+ #   id_igre = glavno.nova_igra(4)
+  #  bottle.redirect("/igraj/")
 
-@bottle.get("/igra/<id_igre>/")
-def igra(id_igre):
-    return bottle.template("igra.html", tabela = glavno[id_igre].tabela)
+@bottle.get("/igraj/")
+def igra():
+    id_igre = 1
+    return bottle.template("igra.html", tabela = glavno.igre[id_igre].tabela)
 
-@bottle.post("/igra/<id_igre>/")
-def igra(id_igre):
+@bottle.post("/igraj/")
+def igraj():
     smer = pygame.key.get_pressed()
+    id_igre = 1
 
     if smer[pygame.K_LEFT]:
         glavno.premakni(id_igre, 'L')
@@ -41,6 +44,6 @@ def igra(id_igre):
     else:
         glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
 
-    bottle.redirect("/igra/<id_igre>/")
+    bottle.redirect("/igraj/")
 
 bottle.run(reloader=True, debug=True)
