@@ -78,6 +78,9 @@ class Glavno:
     def dobi_iz_json_slovarja(cls, slovar):
         slovar_iger = {}
 
+        if len(slovar) == 0:
+            return Glavno(slovar_iger, 0)
+
         for id_igre, igra_slovar in slovar["igre"].items():
             slovar_iger[int(id_igre)] = Igra.dobi_iz_json_slovarja(igra_slovar)
 
@@ -87,6 +90,7 @@ class Glavno:
     def preberi_iz_datoteke(datoteka):
         with open(datoteka, "r") as in_file:
             json_slovar = json.load(in_file)
+        print(type(json_slovar))
         return Glavno.dobi_iz_json_slovarja(json_slovar)
 
 class Igra:
@@ -290,7 +294,7 @@ class Igra:
 
     @staticmethod
     def dobi_iz_json_slovarja(slovar):
-        return Igra(slovar["tocke"], slovar["velikost"], slovar["tabela"])
+        return Igra(slovar["velikost"], slovar["tabela"], slovar["tocke"])
     
 def nova_igra(velikost):
     return Igra(velikost)
