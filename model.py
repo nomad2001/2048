@@ -43,9 +43,9 @@ class Glavno:
         self.max_id += 1
         return self.max_id
 
-    def nova_igra(self):
+    def nova_igra(self, velikost):
         nov_id = self.prost_id_igre()
-        sveza_igra = nova_igra()
+        sveza_igra = nova_igra(velikost)
 
         self.igre[nov_id] = sveza_igra
         return nov_id
