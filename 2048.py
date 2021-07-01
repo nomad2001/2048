@@ -31,19 +31,21 @@ def igra():
 
 @bottle.post("/igraj/")
 def igraj():
-    smer = pygame.key.get_pressed()
+    pritiski = pygame.event.get()    
     id_igre = 1
 
-    if smer[pygame.K_LEFT]:
-        glavno.premakni(id_igre, 'L')
-    elif smer[pygame.K_RIGHT]:
-        glavno.premakni(id_igre, 'R')
-    elif smer[pygame.K_UP]:
-        glavno.premakni(id_igre, 'U')
-    elif smer[pygame.K_DOWN]:
-        glavno.premakni(id_igre, 'D')
-    else:
-        glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
+    for smer in pritiski:
+        if smer.type == pygame.KEYDOWN:
+            if smer.key == pygame.K_LEFT:
+                glavno.premakni(id_igre, 'L')
+            elif smer.key == pygame.K_RIGHT:
+                glavno.premakni(id_igre, 'R')
+            elif smer.key == pygame.K_UP:
+                glavno.premakni(id_igre, 'U')
+            elif smer.key == pygame.K_DOWN:
+                glavno.premakni(id_igre, 'D')
+            else:
+                glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
 
     bottle.redirect("/igraj/")
 
