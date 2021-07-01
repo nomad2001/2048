@@ -1,4 +1,5 @@
 from random import randrange
+import json
 import copy
 
 GOR = 'U'
@@ -7,6 +8,8 @@ LEVO = 'L'
 DESNO = 'R'
 KONEC_IGRE = 'E'
 NEOBSTOJECA_SMER = 'N'
+
+DATOTEKA_ZA_SHRANJEVANJE = "podatki.json"
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     obstajaProstoMesto = False
@@ -54,6 +57,37 @@ class Glavno:
         igra = self.igre[id_igre]
         igra.premakni(smer)
         self.igre[id_igre] = igra
+    
+    def pretvor_v_json_slovar(self):
+        slovar_iger = {}
+
+        for id_igre, igra in self.igre.items():
+            slovar_iger[id_igre] = igra.pretvor_v_json_slovar()
+
+        return {
+            "max_id": self.max_id,
+            "igre": slovar_iger
+        }
+    
+    def zapisi_v_datoteko(self, datoteka):
+        with open(datoteka, "w") as out_file:
+            json_slovar = self.pretvor_v_json_slovar()
+            json.dump(json_slovar, out_file)
+    
+    @classmethod
+    def dobi_iz_json_slovarja(cls, slovar):
+        slovar_iger = {}
+
+        for id_igre, igra_slovar in slovar["igre"].items():
+            slovar_iger[int(id_igre)] = Igra.dobi_iz_json_slovarja(igra_slovar)
+
+        return Glavno(slovar_iger,slovar["max_id"])
+    
+    @staticmethod
+    def preberi_iz_datoteke(datoteka):
+        with open(datoteka, "r") as in_file:
+            json_slovar = json.load(in_file)
+        return Glavno.dobi_iz_json_slovarja(json_slovar)
 
 class Igra:
     def __init__(self, velikost = 4, tabela = None, steviloTock = 0):
@@ -246,6 +280,17 @@ class Igra:
         
         if self.konecIgre():
             return KONEC_IGRE
+    
+    def pretvor_v_json_slovar(self):
+        return {
+            "tocke": self.steviloTock,
+            "velikost": self.velikost,
+            "tabela": self.tabela
+        }
+
+    @staticmethod
+    def dobi_iz_json_slovarja(slovar):
+        return Igra(slovar["tocke"], slovar["velikost"], slovar["tabela"])
     
 def nova_igra(velikost):
     return Igra(velikost)
