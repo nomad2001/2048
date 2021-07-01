@@ -15,17 +15,15 @@ def index():
 
 #@bottle.get("/igra/")
 #def pred_novo_igro():
- #   id_igre = glavno.nova_igra(4)
-  #  bottle.redirect("/igraj/")
+ #   return bottle.template("index.html")
 
 @bottle.post("/igra/")
 def nova_igra():
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    id_igre = glavno.nova_igra()
+    id_igre = glavno.nova_igra(4)
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.response.set_cookie("ID_IGRE",str(id_igre),path="/",
         secret=COOKIE_SECRET)
-    id_igre = glavno.nova_igra(4)
     bottle.redirect("/igraj/")
 
 @bottle.get("/igraj/")
@@ -42,6 +40,7 @@ def pokazi_igro():
 
 @bottle.post("/igraj/")
 def igraj():
+    ime = bottle.request.forms.getunicode("ime")
     id_igre=int(
         bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
     )
