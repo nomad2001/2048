@@ -5,9 +5,9 @@ import pygame #ali lahko uporabim pygame?
 glavno = model.Glavno()
 COOKIE_SECRET="bnupičgtfhg9rp8gret934t57thzergurg48thfrhreh8"
 
-@bottle.route('/views/<filename:path>')
-def send_static(filename):
-    return bottle.static_file(filename, root = '/views')
+@bottle.route("/views/<file_path:path>")
+def return_static(file_path):
+    return bottle.static_file(file_path,"views")
 
 @bottle.get("/")
 def index():
