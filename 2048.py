@@ -38,29 +38,93 @@ def pokazi_igro():
     return bottle.template("igra.html", tabela = glavno.igre[id_igre].tabela, \
                     stTock = glavno.igre[id_igre].steviloTock)
 
-@bottle.post("/igraj/")
+def dobi_smer():
+    pygame.init()
+    while True:
+        pygame.event.wait()
+        for dogodek in pygame.event.get():
+            if dogodek.type == pygame.KEYDOWN:
+                return dogodek
+
+#@bottle.post("/igraj/")
+#def igraj():
+#    id_igre=int(
+#        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
+#    )
+
+#    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+#    #pygame.init()
+#    #pritiski = pygame.event.get()    
+#    smer = dobi_smer()
+#    
+#    if smer.key == pygame.K_LEFT:
+#        glavno.premakni(id_igre, 'L')
+#    elif smer.key == pygame.K_RIGHT:
+#        glavno.premakni(id_igre, 'R')
+#    elif smer.key == pygame.K_UP:
+#        glavno.premakni(id_igre, 'U')
+#    elif smer.key == pygame.K_DOWN:
+#        glavno.premakni(id_igre, 'D')
+#    else:
+#        glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
+
+    #for smer in pritiski:
+        #if smer.type == pygame.KEYDOWN:
+         #   if smer.key == pygame.K_LEFT:
+          #      glavno.premakni(id_igre, 'L')
+           # elif smer.key == pygame.K_RIGHT:
+            #    glavno.premakni(id_igre, 'R')
+        #    elif smer.key == pygame.K_UP:
+         #       glavno.premakni(id_igre, 'U')
+          #  elif smer.key == pygame.K_DOWN:
+           #     glavno.premakni(id_igre, 'D')
+           # else:
+            #    glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
+    
+#    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#    bottle.redirect("/igraj/")
+
+@bottle.post("/igraj/levo")
 def igraj():
-    ime = bottle.request.forms.getunicode("ime")
     id_igre=int(
         bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
     )
 
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    pritiski = pygame.event.get()    
+    glavno.premakni(id_igre, 'L')
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    bottle.redirect("/igraj/")
 
-    for smer in pritiski:
-        if smer.type == pygame.KEYDOWN:
-            if smer.key == pygame.K_LEFT:
-                glavno.premakni(id_igre, 'L')
-            elif smer.key == pygame.K_RIGHT:
-                glavno.premakni(id_igre, 'R')
-            elif smer.key == pygame.K_UP:
-                glavno.premakni(id_igre, 'U')
-            elif smer.key == pygame.K_DOWN:
-                glavno.premakni(id_igre, 'D')
-            else:
-                glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
-    
+@bottle.post("/igraj/desno")
+def igraj():
+    id_igre=int(
+        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
+    )
+
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    glavno.premakni(id_igre, 'R')
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    bottle.redirect("/igraj/")
+
+@bottle.post("/igraj/dol")
+def igraj():
+    id_igre=int(
+        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
+    )
+
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    glavno.premakni(id_igre, 'D')
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    bottle.redirect("/igraj/")
+
+@bottle.post("/igraj/gor")
+def igraj():
+    id_igre=int(
+        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
+    )
+
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    glavno.premakni(id_igre, 'U')
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
