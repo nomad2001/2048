@@ -9,6 +9,7 @@ def izpis_igre(igra):
         izpis += '|\n'
     
     izpis += igra.velikost * ' -' + '\n'
+    izpis += f'Število točk: {igra.steviloTock}'
     return izpis
 
 def izpis_konca_igre(igra):
