@@ -130,6 +130,10 @@ class Glavno:
     def premakni(self, uporabnik, smer):
         igra = self.igre[uporabnik.uporabnisko_ime]
         igra.premakni(smer)
+
+        if igra.steviloTock > uporabnik.najboljsi_rezultat:
+            uporabnik.najboljsi_rezultat = igra.steviloTock
+
         self.igre[uporabnik.uporabnisko_ime] = igra
     
     def pretvor_v_json_slovar(self):
