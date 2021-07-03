@@ -3,7 +3,9 @@ import model
 import pygame #ali lahko uporabim pygame?
 
 glavno = model.Glavno()
-COOKIE_SECRET="bnupičgtfhg9rp8gret934t57thzergurg48thfrhreh8"
+
+with open('sifra.txt') as datoteka:
+    COOKIE_SECRET = datoteka.read()
 
 @bottle.route("/views/<file_path:path>")
 def return_static(file_path):
