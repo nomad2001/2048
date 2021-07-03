@@ -1,6 +1,7 @@
-from random import randrange
+import random
 import json
 import copy
+import hashlib
 
 GOR = 'U'
 DOL = 'D'
@@ -10,6 +11,83 @@ KONEC_IGRE = 'E'
 NEOBSTOJECA_SMER = 'N'
 
 DATOTEKA_ZA_SHRANJEVANJE = "podatki.json"
+DATOTEKA_ZA_UPORABNIKE = "uporabniki.json"
+
+class Uporabniki:
+    def __init__(self, uporabniki = None):
+        self.uporabniki = uporabniki or {}
+
+    def zapisi_v_datoteko(self, datoteka):
+        json_slovar = {}
+
+        for ime, uporabnik in self.uporabniki.items():
+            json_slovar[ime] = uporabnik.v_slovar()
+
+        with open(datoteka, "w") as out_file:
+            json.dump(json_slovar, out_file)
+    
+    @staticmethod
+    def preberi_iz_datoteke(datoteka):
+        with open(datoteka, "r") as in_file:
+            json_slovar = json.load(in_file)
+
+        uporabniki = {}
+        
+        for ime, slovar in json_slovar.items():
+            uporabniki[ime] = Uporabnik.iz_slovarja(slovar)
+        
+        return uporabniki
+
+class Uporabnik:
+    def __init__(self, uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultat):
+        self.uporabnisko_ime = uporabnisko_ime
+        self.zasifrirano_geslo = zasifrirano_geslo
+        self.najboljsi_rezultat = najboljsi_rezultat
+    
+    @staticmethod
+    def prijava(uporabnisko_ime, geslo_v_cistopisu):
+        uporabniki = Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE)
+        if uporabniki[uporabnisko_ime] is None:
+            raise ValueError("Uporabniško ime ne obstaja")
+        elif uporabniki[uporabnisko_ime].preveri_geslo(geslo_v_cistopisu):
+            return uporabniki[uporabnisko_ime]        
+        else:
+            raise ValueError("Geslo je napačno")
+
+    @staticmethod
+    def registracija(uporabnisko_ime, geslo_v_cistopisu):
+        if Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE)[uporabnisko_ime] is not None:
+            raise ValueError("Uporabniško ime že obstaja")
+        else:
+            zasifrirano_geslo = Uporabnik._zasifriraj_geslo(geslo_v_cistopisu)
+            uporabnik = Uporabnik(uporabnisko_ime, zasifrirano_geslo, 0)
+            return uporabnik
+
+    def _zasifriraj_geslo(geslo_v_cistopisu, sol = None):
+        if sol is None:
+            sol = str(random.getrandbits(32))
+        posoljeno_geslo = sol + geslo_v_cistopisu
+        h = hashlib.blake2b()
+        h.update(posoljeno_geslo.encode(encoding="utf-8"))
+        return f"{sol}${h.hexdigest()}"
+
+    def v_slovar(self):
+        return {
+            "uporabnisko_ime": self.uporabnisko_ime,
+            "zasifrirano_geslo": self.zasifrirano_geslo,
+            "najboljsi_rezultat": self.najboljsi_rezultat,
+        }
+
+    def preveri_geslo(self, geslo_v_cistopisu):
+        sol, _ = self.zasifrirano_geslo.split("$")
+        return self.zasifrirano_geslo == Uporabnik._zasifriraj_geslo(geslo_v_cistopisu, sol)
+
+    @staticmethod
+    def iz_slovarja(slovar):
+        uporabnisko_ime = slovar["uporabnisko_ime"]
+        zasifrirano_geslo = slovar["zasifrirano_geslo"]
+        najboljsi_rezultat = slovar["najboljsi_rezultat"]
+        return Uporabnik(uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultat)
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     stProstihMest = 0
@@ -22,7 +100,7 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     if stProstihMest == 0:
         return
     
-    poVrstiProst = randrange(stProstihMest) + 1
+    poVrstiProst = random.randrange(stProstihMest) + 1
 
     for i in range(velikost):
         for j in range(velikost):
@@ -33,7 +111,7 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
                     y = j
                     break
         
-    kateroNovoStevilo = randrange(10)
+    kateroNovoStevilo = random.randrange(10)
 
     if kateroNovoStevilo % 5 == 0:
         tabela[x][y] = 4
@@ -93,7 +171,7 @@ class Glavno:
     def preberi_iz_datoteke(datoteka):
         with open(datoteka, "r") as in_file:
             json_slovar = json.load(in_file)
-        print(type(json_slovar))
+        
         return Glavno.dobi_iz_json_slovarja(json_slovar)
 
 class Igra:
