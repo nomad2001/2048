@@ -12,23 +12,26 @@ NEOBSTOJECA_SMER = 'N'
 DATOTEKA_ZA_SHRANJEVANJE = "podatki.json"
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
-    obstajaProstoMesto = False
+    stProstihMest = 0
 
     for i in range(velikost):
         for j in range(velikost):
             if tabela[i][j] == 0:
-                obstajaProstoMesto = True
-                break
+                stProstihMest += 1
     
-    if not obstajaProstoMesto:
+    if stProstihMest == 0:
         return
     
-    x = randrange(velikost)
-    y = randrange(velikost)
+    poVrstiProst = randrange(stProstihMest) + 1
 
-    while tabela[x][y] != 0:
-        x = randrange(velikost)
-        y = randrange(velikost)
+    for i in range(velikost):
+        for j in range(velikost):
+            if tabela[i][j] == 0:
+                poVrstiProst -= 1
+                if poVrstiProst == 0:
+                    x = i
+                    y = j
+                    break
         
     kateroNovoStevilo = randrange(10)
 
