@@ -24,6 +24,10 @@
         <input name = "ponovno_geslo">
         <input type = "submit" value = "Pošlji">
     </form>
-    {{!base}}
+    %if napaka == 1:
+    <p style="color:red">Geslo in ponovljeno geslo se ne ujemata.</p>
+    %elif napaka == 2:
+    <p style="color:red">Uporabniško ime že obstaja.</p>
+    %end
   </div>
 </body>
