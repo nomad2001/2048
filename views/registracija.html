@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>2048</title>
+
+  <link href="/views/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="favicon.ico">
+</head>
+<body>
+  <div class="container">
+    <div class="heading">
+        <h1 class="title">2048</h1>
+    </div>
+    <div class="above-game">
+        <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+    </div>
+    <form action = "/prijava/" method = "POST">
+        <label>Uporabniško ime:</label><br>
+        <input name = "ime"><br>
+        <label>Geslo:</label><br>
+        <input name = "geslo">
+        <label>Ponovite geslo:</label><br>
+        <input name = "ponovno_geslo">
+        <input type = "submit" value = "Pošlji">
+    </form>
+    {{!base}}
+  </div>
+</body>
