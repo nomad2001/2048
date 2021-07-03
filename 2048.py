@@ -32,7 +32,7 @@ def index():
 
 @bottle.get("/prijava/")
 def prijava_izgled():
-    return bottle.template("prijava.html")
+    return bottle.template("prijava.html", napaka = False)
 
 @bottle.post("/prijava/")
 def prijava():
@@ -46,11 +46,11 @@ def prijava():
         )
         bottle.redirect("/igra/")
     except ValueError:
-        return bottle.template("napacna_prijava.html")
+        return bottle.template("prijava.html", napaka = True)
 
 @bottle.get("/registracija/")
 def registracija_izgled():
-    return bottle.template("registracija.html")
+    return bottle.template("registracija.html", napaka = 0)
 
 @bottle.post("/registracija/")
 def registracija():
