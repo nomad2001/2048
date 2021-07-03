@@ -36,7 +36,7 @@ class Uporabniki:
         for ime, slovar in json_slovar.items():
             uporabniki[ime] = Uporabnik.iz_slovarja(slovar)
         
-        return uporabniki
+        return Uporabniki(uporabniki)
 
 class Uporabnik:
     def __init__(self, uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultat):
