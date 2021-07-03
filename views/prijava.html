@@ -22,7 +22,9 @@
         <input name = "geslo">
         <input type = "submit" value = "Pošlji">
     </form>
-    {{!base}}
+    %if napaka == True:
+    <p style="color:red">Uporabniško ime ali geslo je napačno.</p>
+    %end
     <br>
     <br> 
     <form action="/prijava/" method = "POST">
