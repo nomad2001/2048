@@ -119,36 +119,26 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
         tabela[x][y] = 2
 
 class Glavno:
-    def __init__(self, zacetne_igre=None, zacetni_id=0):
+    def __init__(self, zacetne_igre = None):
         self.igre = zacetne_igre or {}
-        self.max_id = zacetni_id
-    
-    def prost_id_igre(self):
-        self.max_id += 1
-        return self.max_id
 
-    def nova_igra(self, velikost):
-        nov_id = self.prost_id_igre()
+    def nova_igra(self, uporabnik, velikost):
         sveza_igra = nova_igra(velikost)
-
-        self.igre[nov_id] = sveza_igra
-        return nov_id
+        self.igre[uporabnik.uporabnisko_ime] = sveza_igra
+        return uporabnik
     
-    def premakni(self, id_igre, smer):
-        igra = self.igre[id_igre]
+    def premakni(self, uporabnik, smer):
+        igra = self.igre[uporabnik.uporabnisko_ime]
         igra.premakni(smer)
-        self.igre[id_igre] = igra
+        self.igre[uporabnik.uporabnisko_ime] = igra
     
     def pretvor_v_json_slovar(self):
         slovar_iger = {}
 
-        for id_igre, igra in self.igre.items():
-            slovar_iger[id_igre] = igra.pretvor_v_json_slovar()
+        for uporabnisko_ime, igra in self.igre.items():
+            slovar_iger[uporabnisko_ime] = igra.pretvor_v_json_slovar()
 
-        return {
-            "max_id": self.max_id,
-            "igre": slovar_iger
-        }
+        return slovar_iger
     
     def zapisi_v_datoteko(self, datoteka):
         with open(datoteka, "w") as out_file:
@@ -159,13 +149,13 @@ class Glavno:
     def dobi_iz_json_slovarja(cls, slovar):
         slovar_iger = {}
 
-        if len(slovar) == 0:
-            return Glavno(slovar_iger, 0)
+    #    if len(slovar) == 0:
+     #       return Glavno(slovar_iger, 0)
 
-        for id_igre, igra_slovar in slovar["igre"].items():
-            slovar_iger[int(id_igre)] = Igra.dobi_iz_json_slovarja(igra_slovar)
+        for uporabnisko_ime, igra_slovar in slovar.items():
+            slovar_iger[uporabnisko_ime] = Igra.dobi_iz_json_slovarja(igra_slovar)
 
-        return Glavno(slovar_iger,slovar["max_id"])
+        return Glavno(slovar_iger)
     
     @staticmethod
     def preberi_iz_datoteke(datoteka):
