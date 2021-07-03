@@ -3,9 +3,24 @@ import model
 import pygame #ali lahko uporabim pygame?
 
 glavno = model.Glavno()
+uporabniki = model.Uporabniki()
 
 with open('sifra.txt') as datoteka:
     COOKIE_SECRET = datoteka.read()
+
+PISKOTEK_UPORABNISKO_IME = "uporabnisko_ime"
+
+def trenutni_uporabnik():
+    uporabnisko_ime = bottle.request.get_cookie(
+        PISKOTEK_UPORABNISKO_IME,secret=COOKIE_SECRET
+    )
+    if not uporabnisko_ime:
+        bottle.redirect("/prijava/")
+    if uporabnisko_ime:
+        return uporabnisko_ime
+    else:
+        bottle.redirect("/prijava/")
+
 
 @bottle.route("/views/<file_path:path>")
 def return_static(file_path):
@@ -13,32 +28,68 @@ def return_static(file_path):
 
 @bottle.get("/")
 def index():
-    return bottle.template("index.html")
+    bottle.redirect("/prijava/")
 
-#@bottle.get("/igra/")
-#def pred_novo_igro():
- #   return bottle.template("index.html")
+@bottle.get("/prijava/")
+def prijava_izgled():
+    return bottle.template("prijava.html")
+
+@bottle.post("/prijava/")
+def prijava():
+    uporabnisko_ime = bottle.request.form["ime"]
+    geslo = bottle.request.form["geslo"]
+
+    try:
+        model.Uporabnik.prijava(uporabnisko_ime, geslo)
+        bottle.response.set_cookie(
+            PISKOTEK_UPORABNISKO_IME, uporabnisko_ime, path="/", secret=COOKIE_SECRET
+        )
+        bottle.redirect("/igra/")
+    except ValueError:
+        return bottle.template("napacna_prijava.html")
+
+@bottle.get("/registracija/")
+def registracija_izgled():
+    return bottle.template("registracija.html")
+
+@bottle.post("/registracija/")
+def registracija():
+    uporabnisko_ime = bottle.request.form["ime"]
+    geslo1 = bottle.request.form["geslo"]
+    geslo2 = bottle.request.form["ponovno_geslo"]
+
+    if geslo1 != geslo2:
+        return bottle.template("napacna_registracija.html", napaka = 1)
+    
+    try:
+        uporabnik = model.Uporabnik.registracija()
+        trenutni_uporabniki = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+        trenutni_uporabniki.uporabniki[uporabnik.uporabnisko_ime] = uporabnik
+        trenutni_uporabniki.model.Uporabniki.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+    except ValueError:
+        return bottle.template("napacna_registracija.html", napaka = 2)
+
+@bottle.get("/igra/")
+def pred_igro():
+    return bottle.template("index.html")
 
 @bottle.post("/igra/")
 def nova_igra():
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    id_igre = glavno.nova_igra(4)
+    uporabnisko_ime = trenutni_uporabnik()
+    glavno.nova_igra(uporabniki[uporabnisko_ime], 4)
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-    bottle.response.set_cookie("ID_IGRE",str(id_igre),path="/",
-        secret=COOKIE_SECRET)
     bottle.redirect("/igraj/")
 
 @bottle.get("/igraj/")
 def pokazi_igro():
-    id_igre=int(
-        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
-    )
-
+    uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+  #  glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 
-    return bottle.template("igra.html", tabela = glavno.igre[id_igre].tabela, \
-                    stTock = glavno.igre[id_igre].steviloTock)
+    return bottle.template("igra.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
+                    stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+                        maxStTock = uporabniki[uporabnisko_ime].najboljsi_rezultat)
 
 def dobi_smer():
     pygame.init()
@@ -88,45 +139,33 @@ def dobi_smer():
 
 @bottle.post("/igraj/levo")
 def igraj():
-    id_igre=int(
-        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
-    )
-
+    uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    glavno.premakni(id_igre, 'L')
+    glavno.premakni(uporabniki[uporabnisko_ime], 'L')
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
 @bottle.post("/igraj/desno")
 def igraj():
-    id_igre=int(
-        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
-    )
-
+    uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    glavno.premakni(id_igre, 'R')
+    glavno.premakni(uporabniki[uporabnisko_ime], 'R')
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
 @bottle.post("/igraj/dol")
 def igraj():
-    id_igre=int(
-        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
-    )
-
+    uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    glavno.premakni(id_igre, 'D')
+    glavno.premakni(uporabniki[uporabnisko_ime], 'D')
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
 @bottle.post("/igraj/gor")
 def igraj():
-    id_igre=int(
-        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
-    )
-
+    uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    glavno.premakni(id_igre, 'U')
+    glavno.premakni(uporabniki[uporabnisko_ime], 'U')
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
