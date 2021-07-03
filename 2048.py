@@ -59,15 +59,16 @@ def registracija():
     geslo2 = bottle.request.form["ponovno_geslo"]
 
     if geslo1 != geslo2:
-        return bottle.template("napacna_registracija.html", napaka = 1)
+        return bottle.template("registracija.html", napaka = 1)
     
     try:
         uporabnik = model.Uporabnik.registracija()
         trenutni_uporabniki = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
         trenutni_uporabniki.uporabniki[uporabnik.uporabnisko_ime] = uporabnik
         trenutni_uporabniki.model.Uporabniki.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/prijava/")
     except ValueError:
-        return bottle.template("napacna_registracija.html", napaka = 2)
+        return bottle.template("registracija.html", napaka = 2)
 
 @bottle.get("/igra/")
 def pred_igro():
