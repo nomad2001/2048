@@ -243,4 +243,14 @@ def igrajGor():
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/igraj/")
 
+@bottle.get("/konec/")
+def konec_izgled():
+    uporabnisko_ime = trenutni_uporabnik()
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    
+    return bottle.template("konec.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
+                    stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+
 bottle.run(reloader=True, debug=True)
