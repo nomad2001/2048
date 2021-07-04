@@ -136,7 +136,7 @@ class Glavno:
 
         self.igre[uporabnik.uporabnisko_ime] = igra
 
-        if igra.konecigre():
+        if igra.konecIgre():
             return True
         
         return False
