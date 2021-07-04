@@ -215,7 +215,9 @@ hr {
 
 .grid-container {
   position: absolute;
-  z-index: 1; }
+  z-index: 1; 
+  /*text-align: center; 
+  vertical-align: middle;*/}
 
 .grid-row {
   margin-bottom: 15px; }
@@ -711,7 +713,9 @@ hr {
 
   .grid-container {
     position: absolute;
-    z-index: 1; }
+    z-index: 1;
+    /*text-align: center; 
+    vertical-align: middle;*/ }
 
   .grid-row {
     margin-bottom: 10px; }
@@ -815,3 +819,12 @@ hr {
     margin-top: 90px !important; }
   .game-message .lower {
     margin-top: 30px !important; } }
+
+.watermark {
+  margin: 0 auto;
+  position: absolute;
+  display: inline-block;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
