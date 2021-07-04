@@ -135,6 +135,11 @@ class Glavno:
             uporabnik.najboljsi_rezultat = igra.steviloTock
 
         self.igre[uporabnik.uporabnisko_ime] = igra
+
+        if igra.konecigre():
+            return True
+        
+        return False
     
     def pretvor_v_json_slovar(self):
         slovar_iger = {}

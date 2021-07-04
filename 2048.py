@@ -88,17 +88,6 @@ def nova_igra():
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
-@bottle.get("/igraj/")
-def pokazi_igro():
-    uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-  #  glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-
-    return bottle.template("igra.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
-                    stTock = glavno.igre[uporabnisko_ime].steviloTock, \
-                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
-
 #def dobi_smer():
  #   pygame.init()
   #  while True:
@@ -131,15 +120,32 @@ def dobi_smer():
             elif event.key == keyboard.Key.down:
                 return 'D'
 
+@bottle.get("/igraj/")
+def pokazi_igro():
+    uporabnisko_ime = trenutni_uporabnik()
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+   # glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer())
+   # glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+
+    return bottle.template("igra.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
+                    stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+
 @bottle.post("/igraj/splosno/")
 def igraj_splosno():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer())
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-    bottle.redirect("/igraj/")
+
+    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer()):
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/konec/")
+    else:
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/igraj/")
     
 #@bottle.post("/igraj/")
 #def igraj():
@@ -184,39 +190,57 @@ def igrajLevo():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'L')
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-    bottle.redirect("/igraj/")
+
+    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'L'):
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/konec/")
+    else:
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/igraj/")
 
 @bottle.post("/igraj/desno/")
 def igrajDesno():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'R')
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-    bottle.redirect("/igraj/")
+    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'R'):
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/konec/")
+    else:
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/igraj/")
 
 @bottle.post("/igraj/dol/")
 def igrajDol():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'D')
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-    bottle.redirect("/igraj/")
+
+    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'D'):
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/konec/")
+    else:
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/igraj/")
 
 @bottle.post("/igraj/gor/")
 def igrajGor():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'U')
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-    bottle.redirect("/igraj/")
+    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'U'):
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/konec/")
+    else:
+        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        bottle.redirect("/igraj/")
 
 bottle.run(reloader=True, debug=True)
