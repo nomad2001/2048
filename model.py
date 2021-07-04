@@ -46,7 +46,7 @@ class Uporabnik:
     
     @staticmethod
     def prijava(uporabnisko_ime, geslo_v_cistopisu):
-        uporabniki = Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE)
+        uporabniki = Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki
         if uporabniki[uporabnisko_ime] is None:
             raise ValueError("Uporabniško ime ne obstaja")
         elif uporabniki[uporabnisko_ime].preveri_geslo(geslo_v_cistopisu):
