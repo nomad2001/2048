@@ -78,7 +78,7 @@ def pred_igro():
 def nova_igra():
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnisko_ime = trenutni_uporabnik()
-    glavno.nova_igra(uporabniki[uporabnisko_ime], 4)
+    glavno.nova_igra(uporabniki.uporabniki[uporabnisko_ime], 4)
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
