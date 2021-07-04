@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>2048</title>
+
+  <link href="/views/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="/views/favicon.ico">
+</head>
+<body>
+  <div class="container">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container">{{ stTock }}</div>
+        <div class="best-container">{{ maxStTock }}</div>
+      </div>
+    </div>
+
+    <div class="above-game">
+      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+      <form action="/igra/" method="post">
+        <button type="submit" class="restart-button">Nova igra</button>
+      </form>
+    </div>
+
+    <div class="game-container">
+      <div class="game-message">
+        <p></p>
+        <div class="lower">
+	        <a class="keep-playing-button">Keep going</a>
+          <a class="retry-button">Try again</a>
+        </div>
+      </div>
+      <div>
+        <div class="grid-container" style="filter: blur(4px);">
+            %for i in range(4):
+            <div class="grid-row">
+                %for j in range(4):
+                %if tabela[i][j] == 0:
+                    <div class="grid-cell"></div>
+                %elif tabela[i][j] > 2048:
+                    <div class="grid-cell"><div class="tile-super">{{ tabela[i][j] }}</div></div>
+                %else:
+                    <div class="grid-cell"><div class="tile-{{tabela[i][j]}}">{{ tabela[i][j] }}</div></div>
+                %end
+                %end
+            </div>
+            %end
+        </div>
+        <div class = "watermark">
+            <div class="important" style="font-size: 30px;color: black;"><strong>KONEC IGRE</strong><br>
+                Dosegli ste {{stTock}} točk.</div>
+        </div>
+    </div>
+
+      <div class="tile-container">
+
+      </div>
+    </div>
+
+    <p class="game-explanation">
+      <strong class="important" >How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+    </p>
+  </div>
+</body>
+</html>
