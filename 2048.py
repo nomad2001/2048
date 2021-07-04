@@ -65,7 +65,7 @@ def registracija():
         uporabnik = model.Uporabnik.registracija(uporabnisko_ime, geslo1)
         trenutni_uporabniki = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
         trenutni_uporabniki.uporabniki[uporabnik.uporabnisko_ime] = uporabnik
-        trenutni_uporabniki.model.Uporabniki.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        trenutni_uporabniki.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/prijava/")
     except ValueError:
         return bottle.template("registracija.html", napaka = 2)
