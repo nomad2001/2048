@@ -115,8 +115,8 @@ button {
 form {
   color: #776e65;
   font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer; }
+  /*text-decoration: underline;
+  cursor: pointer;*/ }
 
 strong.important {
   text-transform: uppercase; }
