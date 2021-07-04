@@ -36,8 +36,8 @@ def prijava_izgled():
 
 @bottle.post("/prijava/")
 def prijava():
-    uporabnisko_ime = bottle.request.form["ime"]
-    geslo = bottle.request.form["geslo"]
+    uporabnisko_ime = bottle.request.forms.getunicode("ime")
+    geslo = bottle.request.forms.getunicode("geslo")
 
     try:
         model.Uporabnik.prijava(uporabnisko_ime, geslo)
@@ -54,9 +54,9 @@ def registracija_izgled():
 
 @bottle.post("/registracija/")
 def registracija():
-    uporabnisko_ime = bottle.request.form["ime"]
-    geslo1 = bottle.request.form["geslo"]
-    geslo2 = bottle.request.form["ponovno_geslo"]
+    uporabnisko_ime = bottle.request.forms.getunicode("ime")
+    geslo1 = bottle.request.forms.getunicode("geslo")
+    geslo2 = bottle.request.forms.getunicode("ponovno_geslo")
 
     if geslo1 != geslo2:
         return bottle.template("registracija.html", napaka = 1)
