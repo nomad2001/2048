@@ -1,6 +1,7 @@
 import bottle
 import model
-import pygame #ali lahko uporabim pygame?
+#import pygame #ali lahko uporabim pygame?
+from pynput import keyboard
 
 glavno = model.Glavno()
 uporabnikiRazred = model.Uporabniki()
@@ -98,14 +99,48 @@ def pokazi_igro():
                     stTock = glavno.igre[uporabnisko_ime].steviloTock, \
                         maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
 
-def dobi_smer():
-    pygame.init()
-    while True:
-        pygame.event.wait()
-        for dogodek in pygame.event.get():
-            if dogodek.type == pygame.KEYDOWN:
-                return dogodek
+#def dobi_smer():
+ #   pygame.init()
+  #  while True:
+   #     pygame.event.wait()
+    #    for dogodek in pygame.event.get():
+     #       if dogodek.type == pygame.KEYDOWN:
+      #          return dogodek
 
+def on_press(key):
+    try:
+        k = key.char
+    except:
+        k = key.name
+    if k in ['left', 'right', 'up', 'down']:
+        print('Key pressed: ' + k)
+        return False  
+
+def dobi_smer():
+    listener = keyboard.Listener(on_press = on_press)
+    listener.start()
+    #listener.join()
+    with keyboard.Events() as events:
+        for event in events:
+            if event.key == keyboard.Key.left:
+                return 'L'
+            elif event.key == keyboard.Key.right:
+                return 'R'    
+            elif event.key == keyboard.Key.up:
+                return 'U'        
+            elif event.key == keyboard.Key.down:
+                return 'D'
+
+@bottle.post("/igraj/splosno/")
+def igraj_splosno():
+    uporabnisko_ime = trenutni_uporabnik()
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer())
+    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+    bottle.redirect("/igraj/")
+    
 #@bottle.post("/igraj/")
 #def igraj():
 #    id_igre=int(
@@ -144,7 +179,7 @@ def dobi_smer():
 #    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 #    bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/levo")
+@bottle.post("/igraj/levo/")
 def igrajLevo():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
@@ -154,7 +189,7 @@ def igrajLevo():
     uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
     bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/desno")
+@bottle.post("/igraj/desno/")
 def igrajDesno():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
@@ -164,7 +199,7 @@ def igrajDesno():
     uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
     bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/dol")
+@bottle.post("/igraj/dol/")
 def igrajDol():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
@@ -174,7 +209,7 @@ def igrajDol():
     uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
     bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/gor")
+@bottle.post("/igraj/gor/")
 def igrajGor():
     uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
