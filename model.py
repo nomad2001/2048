@@ -47,7 +47,7 @@ class Uporabnik:
     @staticmethod
     def prijava(uporabnisko_ime, geslo_v_cistopisu):
         uporabniki = Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki
-        if uporabniki[uporabnisko_ime] is None:
+        if uporabnisko_ime not in uporabniki.keys():
             raise ValueError("Uporabniško ime ne obstaja")
         elif uporabniki[uporabnisko_ime].preveri_geslo(geslo_v_cistopisu):
             return uporabniki[uporabnisko_ime]        
@@ -56,7 +56,7 @@ class Uporabnik:
 
     @staticmethod
     def registracija(uporabnisko_ime, geslo_v_cistopisu):
-        if Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE)[uporabnisko_ime] is not None:
+        if uporabnisko_ime in Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki.keys():
             raise ValueError("Uporabniško ime že obstaja")
         else:
             zasifrirano_geslo = Uporabnik._zasifriraj_geslo(geslo_v_cistopisu)
