@@ -5,6 +5,7 @@ from pynput import keyboard
 
 glavno = model.Glavno()
 uporabnikiRazred = model.Uporabniki()
+prijavaPoRegistraciji = False
 
 with open('sifra.txt') as datoteka:
     COOKIE_SECRET = datoteka.read()
@@ -33,7 +34,12 @@ def index():
 
 @bottle.get("/prijava/")
 def prijava_izgled():
-    return bottle.template("prijava.html", napaka = False)
+    global prijavaPoRegistraciji
+    if prijavaPoRegistraciji:
+        prijavaPoRegistraciji = False
+        return bottle.template("prijava.html", napaka = 0)
+    else:
+        return bottle.template("prijava.html", napaka = 2)
 
 @bottle.post("/prijava/")
 def prijava():
@@ -47,7 +53,7 @@ def prijava():
         )
         bottle.redirect("/igra/")
     except ValueError:
-        return bottle.template("prijava.html", napaka = True)
+        return bottle.template("prijava.html", napaka = 1)
 
 @bottle.get("/registracija/")
 def registracija_izgled():
@@ -67,6 +73,8 @@ def registracija():
         uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
         uporabnikiRazred.uporabniki[uporabnik.uporabnisko_ime] = uporabnik
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+        global prijavaPoRegistraciji
+        prijavaPoRegistraciji = True
         bottle.redirect("/prijava/")
     except ValueError:
         return bottle.template("registracija.html", napaka = 2)
@@ -75,8 +83,17 @@ def registracija():
 def pred_igro():
     uporabnisko_ime = trenutni_uporabnik()
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    return bottle.template(
-        "index.html", maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat
+    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+
+    if uporabnisko_ime in glavno.igre.keys():
+        return bottle.template(
+            "index.html", maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat,
+                            obstaja = True
+        )
+    else:
+        return bottle.template(
+            "index.html", maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat,
+                            obstaja = False
         )
 
 @bottle.post("/igra/")

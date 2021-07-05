@@ -23,9 +23,11 @@
       <form action="/igra/" method="post">
         <button type="submit" class="restart-button">Nova igra</button>
       </form>
-      <form action="/igraj/" method="get">
-        <button type="submit" class="restart-button">Nadaljuj igro</button>
-      </form>
+      %if obstaja == True:
+        <form action="/igraj/" method="get">
+          <button type="submit" class="restart-button">Nadaljuj igro</button>
+        </form>
+      %end
     </div>
 
     <div class="game-container">
