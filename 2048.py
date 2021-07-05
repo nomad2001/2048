@@ -128,9 +128,14 @@ def pokazi_igro():
    # glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer())
    # glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 
-    return bottle.template("igra.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
-                    stTock = glavno.igre[uporabnisko_ime].steviloTock, \
-                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+    if glavno.igre[uporabnisko_ime].konecIgre():
+        return bottle.template("konec.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
+                        stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+    else:
+        return bottle.template("igra.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
+                        stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
 
 @bottle.post("/igraj/splosno/")
 def igraj_splosno():
