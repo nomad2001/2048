@@ -833,3 +833,23 @@ hr {
 #premik {
   display: none;
 }
+
+.inline {
+  display: block;
+} 
+
+.link-button {
+  position: relative;
+  bottom: 50px;
+  left: 600px;
+  background: none;
+  border: none;
+  color: #776e65;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: serif;
+}
+.link-button:focus {
+  outline: none;
+}

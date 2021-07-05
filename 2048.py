@@ -79,6 +79,11 @@ def registracija():
     except ValueError:
         return bottle.template("registracija.html", napaka = 2)
 
+@bottle.post("/odjava/")
+def odjava():
+    bottle.response.delete_cookie(PISKOTEK_UPORABNISKO_IME, path="/")
+    bottle.redirect("/")
+
 @bottle.get("/igra/")
 def pred_igro():
     uporabnisko_ime = trenutni_uporabnik()
@@ -207,63 +212,63 @@ def igraj_splosno():
 #    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 #    bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/levo/")
-def igrajLevo():
-    uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+#@bottle.post("/igraj/levo/")
+#def igrajLevo():
+#    uporabnisko_ime = trenutni_uporabnik()
+#    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+#    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
 
-    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'L'):
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/konec/")
-    else:
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/igraj/")
+#    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'L'):
+#        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#        bottle.redirect("/konec/")
+#    else:
+#        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#        bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/desno/")
-def igrajDesno():
-    uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'R'):
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/konec/")
-    else:
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/igraj/")
+#@bottle.post("/igraj/desno/")
+#def igrajDesno():
+#    uporabnisko_ime = trenutni_uporabnik()
+#    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+#     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+#     if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'R'):
+#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#         bottle.redirect("/konec/")
+#     else:
+#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#         bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/dol/")
-def igrajDol():
-    uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+# @bottle.post("/igraj/dol/")
+# def igrajDol():
+#     uporabnisko_ime = trenutni_uporabnik()
+#     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+#     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
 
-    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'D'):
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/konec/")
-    else:
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/igraj/")
+#     if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'D'):
+#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#         bottle.redirect("/konec/")
+#     else:
+#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#         bottle.redirect("/igraj/")
 
-@bottle.post("/igraj/gor/")
-def igrajGor():
-    uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'U'):
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/konec/")
-    else:
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-        bottle.redirect("/igraj/")
+# @bottle.post("/igraj/gor/")
+# def igrajGor():
+#     uporabnisko_ime = trenutni_uporabnik()
+#     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+#     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+#     if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'U'):
+#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#         bottle.redirect("/konec/")
+#     else:
+#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
+#         bottle.redirect("/igraj/")
 
 @bottle.get("/konec/")
 def konec_izgled():
