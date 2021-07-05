@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script>
+    function myFunction() {
+      document.getElementById("premik").click(); 
+    }
+  </script>
   <meta charset="utf-8">
   <title>2048</title>
 
   <link href="/views/main.css" rel="stylesheet" type="text/css">
   <link rel="shortcut icon" href="/views/favicon.ico">
 </head>
-<body>
+<body onload = "myFunction();">
   <div class="container">
     <div class="heading">
       <h1 class="title">2048</h1>
@@ -16,13 +21,12 @@
         <div class="best-container">{{ maxStTock }}</div>
       </div>
     </div>
-
     <div class="above-game">
       <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
       <form action="/igra/" method="post">
         <button type="submit" class="restart-button">Nova igra</button>
       </form>
-      <form action="/igraj/levo/" method="post">
+     <!-- <form action="/igraj/levo/" method="post">
         <button type="submit" class="restart-button" name = "levo">levo</button>
       </form>
       <form action="/igraj/desno/" method="post">
@@ -33,12 +37,12 @@
       </form>
       <form action="/igraj/gor/" method="post">
         <button type="submit" class="restart-button" name = "gor">gor</button>
-      </form>
+      </form>-->
       <form action="/igraj/splosno/" method="post">
-        <button type="submit" class="restart-button" name = "gor">splosno</button>
+        <button type="submit" id = "premik" style="display: none;">splosno</button>
       </form>
     </div>
-
+    
     <div class="game-container">
       <div class="game-message">
         <p></p>

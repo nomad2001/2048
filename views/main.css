@@ -829,3 +829,7 @@ hr {
   text-align: center;
   z-index: 200;
 }
+
+#premik {
+  display: none;
+}
