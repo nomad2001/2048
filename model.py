@@ -13,7 +13,7 @@ NEOBSTOJECA_SMER = 'N'
 DATOTEKA_ZA_SHRANJEVANJE = "podatki.json"
 DATOTEKA_ZA_UPORABNIKE = "uporabniki.json"
 
-class Uporabniki:
+class UporabnikiRazred:
     def __init__(self, uporabniki = None):
         self.uporabniki = uporabniki or {}
 
@@ -36,7 +36,7 @@ class Uporabniki:
         for ime, slovar in json_slovar.items():
             uporabniki[ime] = Uporabnik.iz_slovarja(slovar)
         
-        return Uporabniki(uporabniki)
+        return UporabnikiRazred(uporabniki)
     
     def dobi_lestvico(self):
         lestvica = [(uporabnisko_ime, self.uporabniki[uporabnisko_ime].najboljsi_rezultat)
@@ -51,7 +51,7 @@ class Uporabnik:
     
     @staticmethod
     def prijava(uporabnisko_ime, geslo_v_cistopisu):
-        uporabniki = Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki
+        uporabniki = UporabnikiRazred.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki
         if uporabnisko_ime not in uporabniki.keys():
             raise ValueError("Uporabniško ime ne obstaja")
         elif uporabniki[uporabnisko_ime].preveri_geslo(geslo_v_cistopisu):
@@ -61,7 +61,8 @@ class Uporabnik:
 
     @staticmethod
     def registracija(uporabnisko_ime, geslo_v_cistopisu):
-        if uporabnisko_ime in Uporabniki.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki.keys():
+        if uporabnisko_ime in \
+            UporabnikiRazred.preberi_iz_datoteke(DATOTEKA_ZA_UPORABNIKE).uporabniki.keys():
             raise ValueError("Uporabniško ime že obstaja")
         else:
             zasifrirano_geslo = Uporabnik._zasifriraj_geslo(geslo_v_cistopisu)
@@ -123,7 +124,7 @@ def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     else:
         tabela[x][y] = 2
 
-class Glavno:
+class IgreRazred:
     def __init__(self, zacetne_igre = None):
         self.igre = zacetne_igre or {}
 
@@ -164,19 +165,19 @@ class Glavno:
         slovar_iger = {}
 
     #    if len(slovar) == 0:
-     #       return Glavno(slovar_iger, 0)
+     #       return IgreRazred(slovar_iger, 0)
 
         for uporabnisko_ime, igra_slovar in slovar.items():
             slovar_iger[uporabnisko_ime] = Igra.dobi_iz_json_slovarja(igra_slovar)
 
-        return Glavno(slovar_iger)
+        return IgreRazred(slovar_iger)
     
     @staticmethod
     def preberi_iz_datoteke(datoteka):
         with open(datoteka, "r") as in_file:
             json_slovar = json.load(in_file)
         
-        return Glavno.dobi_iz_json_slovarja(json_slovar)
+        return IgreRazred.dobi_iz_json_slovarja(json_slovar)
 
 class Igra:
     def __init__(self, velikost = 4, tabela = None, steviloTock = 0):

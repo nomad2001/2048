@@ -3,8 +3,8 @@ import model
 #import pygame #ali lahko uporabim pygame?
 from pynput import keyboard
 
-glavno = model.Glavno()
-uporabnikiRazred = model.Uporabniki()
+igreRazred = model.IgreRazred()
+uporabnikiRazred = model.UporabnikiRazred()
 prijavaPoRegistraciji = False
 
 with open('sifra.txt') as datoteka:
@@ -70,7 +70,7 @@ def registracija():
     
     try:
         uporabnik = model.Uporabnik.registracija(uporabnisko_ime, geslo1)
-        uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+        uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
         uporabnikiRazred.uporabniki[uporabnik.uporabnisko_ime] = uporabnik
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         global prijavaPoRegistraciji
@@ -87,10 +87,10 @@ def odjava():
 @bottle.get("/igra/")
 def pred_igro():
     uporabnisko_ime = trenutni_uporabnik()
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
 
-    if uporabnisko_ime in glavno.igre.keys():
+    if uporabnisko_ime in igreRazred.igre.keys():
         return bottle.template(
             "index.html", maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat,
                             obstaja = True
@@ -104,10 +104,10 @@ def pred_igro():
 @bottle.post("/igra/")
 def nova_igra():
     uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    glavno.nova_igra(uporabnikiRazred.uporabniki[uporabnisko_ime], 4)
-    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    igreRazred.nova_igra(uporabnikiRazred.uporabniki[uporabnisko_ime], 4)
+    igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
 
 #def dobi_smer():
@@ -145,32 +145,32 @@ def dobi_smer():
 @bottle.get("/igraj/")
 def pokazi_igro():
     uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
    # glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer())
    # glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 
-    if glavno.igre[uporabnisko_ime].konecIgre():
-        return bottle.template("konec.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
-                        stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+    if igreRazred.igre[uporabnisko_ime].konecIgre():
+        return bottle.template("konec.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
+                        stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
                             maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
     else:
-        return bottle.template("igra.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
-                        stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+        return bottle.template("igra.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
+                        stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
                             maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
 
 @bottle.post("/igraj/splosno/")
 def igraj_splosno():
     uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
 
-    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer()):
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    if igreRazred.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer()):
+        igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/konec/")
     else:
-        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+        igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/igraj/")
     
@@ -273,17 +273,17 @@ def igraj_splosno():
 @bottle.get("/konec/")
 def konec_izgled():
     uporabnisko_ime = trenutni_uporabnik()
-    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
     
-    return bottle.template("konec.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
-                    stTock = glavno.igre[uporabnisko_ime].steviloTock, \
+    return bottle.template("konec.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
+                    stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
                         maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
 
 @bottle.get("/lestvica/<zacetek:int>-<konec:int>/")
 def lestvica(zacetek, konec):
     uporabnisko_ime = trenutni_uporabnik()
-    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
     lestvica = uporabnikiRazred.dobi_lestvico()
     trenutnoMesto = lestvica.index((uporabnisko_ime, 
                                     uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat))
