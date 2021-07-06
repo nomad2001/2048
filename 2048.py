@@ -103,9 +103,9 @@ def pred_igro():
 
 @bottle.post("/igra/")
 def nova_igra():
+    uporabnisko_ime = trenutni_uporabnik()
     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    uporabnisko_ime = trenutni_uporabnik()
     glavno.nova_igra(uporabnikiRazred.uporabniki[uporabnisko_ime], 4)
     glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
@@ -279,5 +279,16 @@ def konec_izgled():
     return bottle.template("konec.html", tabela = glavno.igre[uporabnisko_ime].tabela, \
                     stTock = glavno.igre[uporabnisko_ime].steviloTock, \
                         maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+
+@bottle.get("/lestvica/<zacetek:int>-<konec:int>/")
+def lestvica(zacetek, konec):
+    uporabnisko_ime = trenutni_uporabnik()
+    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    lestvica = uporabnikiRazred.dobi_lestvico()
+    trenutnoMesto = lestvica.index((uporabnisko_ime, 
+                                    uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat))
+    return bottle.template(
+        "lestvica.html", zacetek = zacetek, konec = konec, lestvica = lestvica, mesto = trenutnoMesto + 1
+        )
 
 bottle.run(reloader=True, debug=True)
