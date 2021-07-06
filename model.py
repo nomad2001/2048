@@ -37,6 +37,11 @@ class Uporabniki:
             uporabniki[ime] = Uporabnik.iz_slovarja(slovar)
         
         return Uporabniki(uporabniki)
+    
+    def dobi_lestvico(self):
+        lestvica = [(uporabnisko_ime, self.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+                        for uporabnisko_ime in self.uporabniki.keys()]
+        return sorted(lestvica, key = lambda x:(-x[1]))
 
 class Uporabnik:
     def __init__(self, uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultat):
