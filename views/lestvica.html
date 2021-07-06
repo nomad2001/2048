@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>2048</title>
+
+  <link href="/views/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="/views/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <form method = "post" action = "/odjava/" class="inline">
+            <input type = "hidden">
+            <button type = "submit" class = "link-button">Odjava</button>
+        </form>
+        <h1 style="text-align: center;">Večna lestvica najboljših</h1>
+        <a style="display: block; text-align: center; text-decoration: none;">
+            Vi ste na {{ mesto }}. mestu.
+        </a>
+        <table style="margin: auto;border:3px solid black;border-collapse: collapse;">
+            <tr>
+                <td style="width: 5%;border:solid black;"></td>
+                <td style="width: 80%;border: solid black;">Uporabniško ime</td>
+                <td style="width: 15%;border: solid black;">Točke</td>
+            </tr>
+            %for i in range(zacetek, min(konec + 1, len(lestvica))):
+            <tr>
+                <td style="width: 5%;border: solid black;">{{i + 1}}.</td>
+                <td style="width: 80%;border: solid black;">{{ lestvica[i][0] }}</td>
+                <td style="width: 15%;border: solid black;">{{ lestvica[i][1] }}</td>
+            </tr>
+            %end
+        </table>
+        %if zacetek != 0:
+        <i href = "/lestvica/{{zacetek - 10}}-{{zacetek - 1}}/" class="fa fa-arrow-left" aria-hidden="true"></i>
+        %end
+        %if konec < len(lestvica) - 1:
+        <i href = "/lestvica/{{konec + 1}}-{{konec + 10}}/" class="fa fa-arrow-right" aria-hidden="true"></i>
+        %end
+    </div>
+</body>
