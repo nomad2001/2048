@@ -10,10 +10,14 @@
 </head>
 <body>
     <div class="container">
-        <form method = "post" action = "/odjava/" class="inline">
-            <input type = "hidden">
-            <button type = "submit" class = "link-button">Odjava</button>
-        </form>
+        <a href="/igra/" style="text-align: left;"> Nazaj na igro 
+            <span>
+                <form style="float: right;" method = "post" action = "/odjava/" class="inline">
+                    <input type = "hidden">
+                    <button type = "submit" class = "link-button">Odjava</button>
+                </form>
+            </span>
+        </a>
         <h1 style="text-align: center;">Večna lestvica najboljših</h1>
         <a style="display: block; text-align: center; text-decoration: none;">
             Vi ste na {{ mesto }}. mestu.
@@ -32,11 +36,18 @@
             </tr>
             %end
         </table>
-        %if zacetek != 0:
-        <i href = "/lestvica/{{zacetek - 10}}-{{zacetek - 1}}/" class="fa fa-arrow-left" aria-hidden="true"></i>
-        %end
-        %if konec < len(lestvica) - 1:
-        <i href = "/lestvica/{{konec + 1}}-{{konec + 10}}/" class="fa fa-arrow-right" aria-hidden="true"></i>
-        %end
+        <div style="text-align:center;">
+            %if zacetek != 0:
+            <a href = "/lestvica/{{zacetek - 10}}-{{zacetek - 1}}/">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
+            %end
+            {{zacetek + 1}}-{{min(konec + 1, len(lestvica))}} od {{len(lestvica)}}
+            %if konec < len(lestvica) - 1:
+            <a href = "/lestvica/{{konec + 1}}-{{konec + 10}}/">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
+            %end
+        </div>
     </div>
 </body>
