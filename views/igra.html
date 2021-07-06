@@ -5,6 +5,12 @@
     function myFunction() {
       document.getElementById("premik").click(); 
     }
+
+    window.addEventListener("keydown", function(e) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
   </script>
   <meta charset="utf-8">
   <title>2048</title>
