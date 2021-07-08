@@ -123,14 +123,14 @@ def on_press(key):
         k = key.char
     except:
         k = key.name
-    if k in ['left', 'right', 'up', 'down']:
-        print('Key pressed: ' + k)
+    if k in ['left', 'right', 'up', 'down', 'enter']:
+        #print('Key pressed: ' + k)
         return False  
 
 def dobi_smer():
     listener = keyboard.Listener(on_press = on_press)
     listener.start()
-    #listener.join()
+    listener.join()
     with keyboard.Events() as events:
         for event in events:
             if event.key == keyboard.Key.left:
@@ -141,6 +141,8 @@ def dobi_smer():
                 return 'U'        
             elif event.key == keyboard.Key.down:
                 return 'D'
+            elif event.key == keyboard.Key.enter:
+                return 'X'
 
 @bottle.get("/igraj/")
 def pokazi_igro():
@@ -165,7 +167,12 @@ def igraj_splosno():
     igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
 
-    if igreRazred.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer()):
+    smer = dobi_smer()
+
+    if smer == 'X':
+        return
+
+    if igreRazred.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], smer):
         igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/konec/")
