@@ -6,6 +6,7 @@ from pynput import keyboard
 igreRazred = model.IgreRazred()
 uporabnikiRazred = model.UporabnikiRazred()
 prijavaPoRegistraciji = False
+prijavaPoOdjavi = False
 
 with open('sifra.txt') as datoteka:
     COOKIE_SECRET = datoteka.read()
@@ -35,11 +36,15 @@ def index():
 @bottle.get("/prijava/")
 def prijava_izgled():
     global prijavaPoRegistraciji
+    global prijavaPoOdjavi
     if prijavaPoRegistraciji:
         prijavaPoRegistraciji = False
         return bottle.template("prijava.html", napaka = 0)
-    else:
+    elif prijavaPoOdjavi:
+        prijavaPoOdjavi = False
         return bottle.template("prijava.html", napaka = 2)
+    else:
+        return bottle.template("prijava.html", napaka = 3)
 
 @bottle.post("/prijava/")
 def prijava():
@@ -81,6 +86,8 @@ def registracija():
 
 @bottle.post("/odjava/")
 def odjava():
+    global prijavaPoOdjavi
+    prijavaPoOdjavi = True
     bottle.response.delete_cookie(PISKOTEK_UPORABNISKO_IME, path="/")
     bottle.redirect("/")
 
