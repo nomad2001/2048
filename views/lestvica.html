@@ -10,14 +10,14 @@
 </head>
 <body>
     <div class="container">
-        <a href="/igra/" style="text-align: left;"> Nazaj na igro 
-            <span>
-                <form style="float: right;" method = "post" action = "/odjava/" class="inline">
-                    <input type = "hidden">
-                    <button type = "submit" class = "link-button">Odjava</button>
-                </form>
-            </span>
-        </a>
+        <div>
+            <a href="/igra/" style="text-align: left;"> Nazaj na igro</a>
+        <form style="float: right;" method = "post" action = "/odjava/" class="inline">
+            <input type = "hidden">
+            <button type = "submit" class = "link-button">Odjava</button>
+        </form>  
+        </div>
+        
         <h1 style="text-align: center;">Večna lestvica najboljših</h1>
         <a style="display: block; text-align: center; text-decoration: none;">
             Vi ste na {{ mesto }}. mestu.
