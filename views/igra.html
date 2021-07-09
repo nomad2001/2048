@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
   <script>
     function myFunction() {
       document.getElementById("premik").click(); 
@@ -24,6 +23,7 @@
     <p style="color: red;">
       Za odjavo, lestvico in novo igro pritisnite na primeren gumb in nato tipko ENTER.
     </p>
+
     <div>
       <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
       <form style="float: right;" method = "post" action = "/odjava/" class="inline">
@@ -39,6 +39,7 @@
         <div class="best-container">{{ maxStTock }}</div>
       </div>
     </div>
+
     <div class="above-game">
       <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
       <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
@@ -64,9 +65,13 @@
               %if tabela[i][j] == 0:
                 <div class="grid-cell-{{velikost}}"></div>
               %elif tabela[i][j] > 2048:
-                <div class="grid-cell-{{velikost}}"><div class="tile-super">{{ tabela[i][j] }}</div></div>
+                <div class="grid-cell-{{velikost}}">
+                  <div class="tile-super">{{ tabela[i][j] }}</div>
+                </div>
               %else:
-                <div class="grid-cell-{{velikost}}"><div class="tile-{{tabela[i][j]}}-{{velikost}}">{{ tabela[i][j] }}</div></div>
+                <div class="grid-cell-{{velikost}}">
+                  <div class="tile-{{tabela[i][j]}}-{{velikost}}">{{ tabela[i][j] }}</div>
+                </div>
               %end
             %end
           </div>

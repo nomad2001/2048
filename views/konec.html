@@ -46,9 +46,13 @@
                 %if tabela[i][j] == 0:
                     <div class="grid-cell-{{velikost}}"></div>
                 %elif tabela[i][j] > 2048:
-                    <div class="grid-cell-{{velikost}}"><div class="tile-super-{{velikost}}">{{ tabela[i][j] }}</div></div>
+                    <div class="grid-cell-{{velikost}}">
+                      <div class="tile-super-{{velikost}}">{{ tabela[i][j] }}</div>
+                    </div>
                 %else:
-                    <div class="grid-cell-{{velikost}}"><div class="tile-{{tabela[i][j]}}-{{velikost}}">{{ tabela[i][j] }}</div></div>
+                    <div class="grid-cell-{{velikost}}">
+                      <div class="tile-{{tabela[i][j]}}-{{velikost}}">{{ tabela[i][j] }}</div>
+                    </div>
                 %end
                 %end
             </div>
