@@ -113,9 +113,17 @@ def nova_igra():
     uporabnisko_ime = trenutni_uporabnik()
     igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    igreRazred.nova_igra(uporabnikiRazred.uporabniki[uporabnisko_ime], 4)
+    velikost = int(bottle.request.forms.get("velikost"))
+    igreRazred.nova_igra(uporabnikiRazred.uporabniki[uporabnisko_ime], velikost)
     igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
     bottle.redirect("/igraj/")
+
+@bottle.get("/igra/izbira_velikosti/")
+def izbira_velikosti():
+    uporabnisko_ime = trenutni_uporabnik()
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    return bottle.template("izbira_velikosti.html", 
+                            maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
 
 #def dobi_smer():
  #   pygame.init()
@@ -130,6 +138,7 @@ def on_press(key):
         k = key.char
     except:
         k = key.name
+    print('Key pressed: ' + k)
     if k in ['left', 'right', 'up', 'down', 'enter']:
         #print('Key pressed: ' + k)
         return False  
@@ -160,13 +169,18 @@ def pokazi_igro():
    # glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 
     if igreRazred.igre[uporabnisko_ime].konecIgre():
-        return bottle.template("konec.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
-                        stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+        return bottle.redirect("/konec/")
     else:
         return bottle.template("igra.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                         stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat, \
+                                velikost = igreRazred.igre[uporabnisko_ime].velikost)
+                            
+@bottle.post("/igraj/prekini/")
+def igraj_prekini():
+    print("bla")
+    keyboard.press(keyboard.Key.enter)
+    keyboard.release(keyboard.Key.enter)
 
 @bottle.post("/igraj/splosno/")
 def igraj_splosno():
@@ -292,7 +306,8 @@ def konec_izgled():
     
     return bottle.template("konec.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                     stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat, \
+                                velikost = igreRazred.igre[uporabnisko_ime].velikost)
 
 @bottle.get("/lestvica/<zacetek:int>-<konec:int>/")
 def lestvica(zacetek, konec):
