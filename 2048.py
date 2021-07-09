@@ -1,6 +1,5 @@
 import bottle
 import model
-#import pygame #ali lahko uporabim pygame?
 from pynput import keyboard
 
 igreRazred = model.IgreRazred()
@@ -94,19 +93,12 @@ def odjava():
 @bottle.get("/igra/")
 def pred_igro():
     uporabnisko_ime = trenutni_uporabnik()
-    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
     igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
 
     if uporabnisko_ime in igreRazred.igre.keys():
-        return bottle.template(
-            "index.html", maxTocke = 0,
-                            obstaja = True
-        )
+        return bottle.template("index.html", obstaja = True)
     else:
-        return bottle.template(
-            "index.html", maxTocke = 0,
-                            obstaja = False
-        )
+        return bottle.template("index.html", obstaja = False)
 
 @bottle.post("/igra/")
 def nova_igra():
@@ -120,27 +112,15 @@ def nova_igra():
 
 @bottle.get("/igra/izbira_velikosti/")
 def izbira_velikosti():
-    uporabnisko_ime = trenutni_uporabnik()
-    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    return bottle.template("izbira_velikosti.html", 
-                            maxTocke = 0)
-
-#def dobi_smer():
- #   pygame.init()
-  #  while True:
-   #     pygame.event.wait()
-    #    for dogodek in pygame.event.get():
-     #       if dogodek.type == pygame.KEYDOWN:
-      #          return dogodek
+    return bottle.template("izbira_velikosti.html")
 
 def on_press(key):
     try:
         k = key.char
     except:
         k = key.name
-    print('Key pressed: ' + k)
+    
     if k in ['left', 'right', 'up', 'down', 'enter']:
-        #print('Key pressed: ' + k)
         return False  
 
 def dobi_smer():
@@ -150,23 +130,21 @@ def dobi_smer():
     with keyboard.Events() as events:
         for event in events:
             if event.key == keyboard.Key.left:
-                return 'L'
+                return model.LEVO
             elif event.key == keyboard.Key.right:
-                return 'R'    
+                return model.DESNO   
             elif event.key == keyboard.Key.up:
-                return 'U'        
+                return model.GOR      
             elif event.key == keyboard.Key.down:
-                return 'D'
+                return model.DOL
             elif event.key == keyboard.Key.enter:
-                return 'X'
+                return model.NEOBSTOJECA_SMER
 
 @bottle.get("/igraj/")
 def pokazi_igro():
     uporabnisko_ime = trenutni_uporabnik()
     igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-   # glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], dobi_smer())
-   # glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
 
     if igreRazred.igre[uporabnisko_ime].konecIgre():
         return bottle.redirect("/konec/")
@@ -175,23 +153,14 @@ def pokazi_igro():
                         stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
                             maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
                                 velikost = igreRazred.igre[uporabnisko_ime].velikost)
-                            
-@bottle.post("/igraj/prekini/")
-def igraj_prekini():
-    print("bla")
-    keyboard.press(keyboard.Key.enter)
-    keyboard.release(keyboard.Key.enter)
 
-@bottle.post("/igraj/splosno/")
-def igraj_splosno():
+@bottle.post("/igraj/")
+def igraj():
     uporabnisko_ime = trenutni_uporabnik()
     igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
 
     smer = dobi_smer()
-
-    if smer == 'X':
-        return
 
     if igreRazred.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], smer):
         igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
@@ -202,102 +171,6 @@ def igraj_splosno():
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/igraj/")
     
-#@bottle.post("/igraj/")
-#def igraj():
-#    id_igre=int(
-#        bottle.request.get_cookie("ID_IGRE",secret=COOKIE_SECRET)
-#    )
-
-#    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-#    #pygame.init()
-#    #pritiski = pygame.event.get()    
-#    smer = dobi_smer()
-#    
-#    if smer.key == pygame.K_LEFT:
-#        glavno.premakni(id_igre, 'L')
-#    elif smer.key == pygame.K_RIGHT:
-#        glavno.premakni(id_igre, 'R')
-#    elif smer.key == pygame.K_UP:
-#        glavno.premakni(id_igre, 'U')
-#    elif smer.key == pygame.K_DOWN:
-#        glavno.premakni(id_igre, 'D')
-#    else:
-#        glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
-
-    #for smer in pritiski:
-        #if smer.type == pygame.KEYDOWN:
-         #   if smer.key == pygame.K_LEFT:
-          #      glavno.premakni(id_igre, 'L')
-           # elif smer.key == pygame.K_RIGHT:
-            #    glavno.premakni(id_igre, 'R')
-        #    elif smer.key == pygame.K_UP:
-         #       glavno.premakni(id_igre, 'U')
-          #  elif smer.key == pygame.K_DOWN:
-           #     glavno.premakni(id_igre, 'D')
-           # else:
-            #    glavno.premakni(id_igre) #tu dodaj opozorilo za neveljaven ukaz
-    
-#    glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#    bottle.redirect("/igraj/")
-
-#@bottle.post("/igraj/levo/")
-#def igrajLevo():
-#    uporabnisko_ime = trenutni_uporabnik()
-#    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-#    uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-
-#    if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'L'):
-#        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#        bottle.redirect("/konec/")
-#    else:
-#        glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#        uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#        bottle.redirect("/igraj/")
-
-#@bottle.post("/igraj/desno/")
-#def igrajDesno():
-#    uporabnisko_ime = trenutni_uporabnik()
-#    glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-#     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-#     if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'R'):
-#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#         bottle.redirect("/konec/")
-#     else:
-#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#         bottle.redirect("/igraj/")
-
-# @bottle.post("/igraj/dol/")
-# def igrajDol():
-#     uporabnisko_ime = trenutni_uporabnik()
-#     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-#     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-
-#     if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'D'):
-#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#         bottle.redirect("/konec/")
-#     else:
-#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#         bottle.redirect("/igraj/")
-
-# @bottle.post("/igraj/gor/")
-# def igrajGor():
-#     uporabnisko_ime = trenutni_uporabnik()
-#     glavno = model.Glavno.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
-#     uporabnikiRazred = model.Uporabniki.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-#     if glavno.premakni(uporabnikiRazred.uporabniki[uporabnisko_ime], 'U'):
-#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#         bottle.redirect("/konec/")
-#     else:
-#         glavno.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
-#         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
-#         bottle.redirect("/igraj/")
-
 @bottle.get("/konec/")
 def konec_izgled():
     uporabnisko_ime = trenutni_uporabnik()
