@@ -14,10 +14,9 @@ PISKOTEK_UPORABNISKO_IME = "uporabnisko_ime"
 
 def trenutni_uporabnik():
     uporabnisko_ime = bottle.request.get_cookie(
-        PISKOTEK_UPORABNISKO_IME,secret=COOKIE_SECRET
+        PISKOTEK_UPORABNISKO_IME, secret=COOKIE_SECRET
     )
-    if not uporabnisko_ime:
-        bottle.redirect("/prijava/")
+
     if uporabnisko_ime:
         return uporabnisko_ime
     else:
