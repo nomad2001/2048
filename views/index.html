@@ -8,13 +8,6 @@
   <link rel="shortcut icon" href="/views/favicon.ico">
 </head>
 <body>
-  <!-- <form method = "post" action = "/odjava/" class="inline">
-    <input type = "hidden">
-    <button type = "submit" class = "link-button">
-      This is a link that sends a POST request
-    </button>
-  </form>
- -->
   <div class="container">
     <div>
       <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
@@ -28,13 +21,12 @@
       <h1 class="title">2048</h1>
       <div class="scores-container">
         <div class="score-container">0</div>
-        <div class="best-container">{{ maxTocke }}</div>
+        <div class="best-container">0</div>
       </div>
     </div>
 
     <div class="above-game">
       <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
-   <!--   <a class="restart-button">New Game</a>  -->
       <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
       %if obstaja == True:
         <a href="/igraj/" class="restart-button">Nadaljuj igro</a>
