@@ -23,7 +23,7 @@
         <button type = "submit" class = "link-button">Odjava</button>
       </form>  
     </div>
-    
+
     <div class="heading">
       <h1 class="title">2048</h1>
       <div class="scores-container">
@@ -35,13 +35,9 @@
     <div class="above-game">
       <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
    <!--   <a class="restart-button">New Game</a>  -->
-      <form action="/igra/" method="post">
-        <button type="submit" class="restart-button">Nova igra</button>
-      </form>
+      <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
       %if obstaja == True:
-        <form action="/igraj/" method="get">
-          <button type="submit" class="restart-button">Nadaljuj igro</button>
-        </form>
+        <a href="/igraj/" class="restart-button">Nadaljuj igro</a>
       %end
     </div>
 
@@ -56,9 +52,9 @@
 
       <div class="grid-container">
         %for i in range(4):
-          <div class="grid-row">
+          <div class="grid-row-4">
         %for j in range(4):
-          <div class="grid-cell"></div>
+          <div class="grid-cell-4"></div>
         %end
         </div>
         %end
