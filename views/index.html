@@ -1,66 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>2048</title>
+%rebase("base.html")
+<div class="container">
+  <div>
+    <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
+    <form style="float: right;" method = "post" action = "/odjava/" class="inline">
+      <input type = "hidden">
+      <button type = "submit" class = "link-button">Odjava</button>
+    </form>  
+  </div>
 
-  <link href="/views/main.css" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="/views/favicon.ico">
-</head>
-<body>
-  <div class="container">
-    <div>
-      <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
-      <form style="float: right;" method = "post" action = "/odjava/" class="inline">
-        <input type = "hidden">
-        <button type = "submit" class = "link-button">Odjava</button>
-      </form>  
+  <div class="heading">
+    <h1 class="title">2048</h1>
+    <div class="scores-container">
+      <div class="score-container">0</div>
+      <div class="best-container">0</div>
     </div>
+  </div>
 
-    <div class="heading">
-      <h1 class="title">2048</h1>
-      <div class="scores-container">
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
+  <div class="above-game">
+    <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
+    <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
+    %if obstaja == True:
+      <a href="/igraj/" class="restart-button">Nadaljuj igro</a>
+    %end
+  </div>
+
+  <div class="game-container">
+    <div class="game-message">
+      <p></p>
+      <div class="lower">
+        <a class="keep-playing-button">Keep going</a>
+        <a class="retry-button">Try again</a>
       </div>
     </div>
 
-    <div class="above-game">
-      <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
-      <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
-      %if obstaja == True:
-        <a href="/igraj/" class="restart-button">Nadaljuj igro</a>
+    <div class="grid-container">
+      %for i in range(4):
+        <div class="grid-row-4">
+      %for j in range(4):
+        <div class="grid-cell-4"></div>
+      %end
+      </div>
       %end
     </div>
 
-    <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
-        </div>
-      </div>
+    <div class="tile-container">
 
-      <div class="grid-container">
-        %for i in range(4):
-          <div class="grid-row-4">
-        %for j in range(4):
-          <div class="grid-cell-4"></div>
-        %end
-        </div>
-        %end
-      </div>
-
-      <div class="tile-container">
-
-      </div>
     </div>
-
-    <p class="game-explanation" style="text-align: justify;">
-      <strong class="important">Navodila za igro:</strong> Uporabi <strong>puščice na tipkovnici</strong>,
-       da premakneš ploščice. Ko se ploščici z isto številko dotakneta, se <strong>združita v eno!</strong>
-    </p>
   </div>
-</body>
-</html>
+
+  <p class="game-explanation" style="text-align: justify;">
+    <strong class="important">Navodila za igro:</strong> Uporabi <strong>puščice na tipkovnici</strong>,
+      da premakneš ploščice. Ko se ploščici z isto številko dotakneta, se <strong>združita v eno!</strong>
+  </p>
+</div>

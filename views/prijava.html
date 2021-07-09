@@ -1,40 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>2048</title>
-
-  <link href="/views/main.css" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="/views/favicon.ico">
-</head>
-<body>
-  <div class="container">
-    <div class="heading">
-        <h1 class="title">2048</h1>
-    </div>
-    <div class="above-game">
-      <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
-    </div>
-    %if napaka == 0:
-    <p style="color:lightgreen">Registracija je bila uspešna. Zdaj se lahko prijavite.</p>
-    %elif napaka == 2:
-    <p style="color:lightgreen">Odjava je bila uspešna.</p>
-    %end
-    <form action = "/prijava/" method = "POST" style = "text-decoration: none">
-        <label>Uporabniško ime:</label><br>
-        <input name = "ime"><br>
-        <label>Geslo:</label><br>
-        <input type = "password" name = "geslo"><br>
-        <input type = "submit" value = "Prijava">
-    </form>
-    %if napaka == 1:
-    <p style="color:red">Uporabniško ime ali geslo je napačno.</p>
-    %end
-    <br>
-    <br> 
-    <form action="/registracija/" method = "GET" style = "text-decoration: none">
-        <label>Še niste registrirani?</label><br>
-        <input type = "submit" value = "Registrirajte se">
-    </form>
+%rebase("base.html")
+<div class="container">
+  <div class="heading">
+      <h1 class="title">2048</h1>
   </div>
-</body>
+  <div class="above-game">
+    <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
+  </div>
+  %if napaka == 0:
+  <p style="color:lightgreen">Registracija je bila uspešna. Zdaj se lahko prijavite.</p>
+  %elif napaka == 2:
+  <p style="color:lightgreen">Odjava je bila uspešna.</p>
+  %end
+  <form action = "/prijava/" method = "POST" style = "text-decoration: none">
+      <label>Uporabniško ime:</label><br>
+      <input name = "ime"><br>
+      <label>Geslo:</label><br>
+      <input type = "password" name = "geslo"><br>
+      <input type = "submit" value = "Prijava">
+  </form>
+  %if napaka == 1:
+  <p style="color:red">Uporabniško ime ali geslo je napačno.</p>
+  %end
+  <br>
+  <br> 
+  <form action="/registracija/" method = "GET" style = "text-decoration: none">
+      <label>Še niste registrirani?</label><br>
+      <input type = "submit" value = "Registrirajte se">
+  </form>
+</div>

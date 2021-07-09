@@ -1,78 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>2048</title>
-
-  <link href="/views/main.css" rel="stylesheet" type="text/css">
-  <link rel="shortcut icon" href="/views/favicon.ico">
-</head>
-<body>
-  <div class="container">
-    <div>
-      <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
-      <form style="float: right;" method = "post" action = "/odjava/" class="inline">
-        <input type = "hidden">
-        <button type = "submit" class = "link-button">Odjava</button>
-      </form>  
-    </div>
-    
-    <div class="heading">
-      <h1 class="title">2048</h1>
-      <div class="scores-container">
-        <div class="score-container">{{ stTock }}</div>
-        <div class="best-container">{{ maxStTock }}</div>
-      </div>
-    </div>
-
-    <div class="above-game">
-      <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
-      <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
-    </div>
-
-    <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
-        </div>
-      </div>
-      <div style="z-index: 1;">
-        <div class="grid-container" style="filter: blur(4px);">
-            %for i in range(velikost):
-            <div class="grid-row-{{velikost}}">
-                %for j in range(velikost):
-                %if tabela[i][j] == 0:
-                    <div class="grid-cell-{{velikost}}"></div>
-                %elif tabela[i][j] > 2048:
-                    <div class="grid-cell-{{velikost}}">
-                      <div class="tile-super-{{velikost}}">{{ tabela[i][j] }}</div>
-                    </div>
-                %else:
-                    <div class="grid-cell-{{velikost}}">
-                      <div class="tile-{{tabela[i][j]}}-{{velikost}}">{{ tabela[i][j] }}</div>
-                    </div>
-                %end
-                %end
-            </div>
-            %end
-        </div>
-        <div class = "watermark">
-            <div style="font-size: 30px;color: black;"><strong>KONEC IGRE</strong><br>
-                Dosegli ste {{stTock}} točk.</div>
-        </div>
-    </div>
-
-      <div class="tile-container">
-
-      </div>
-    </div>
-
-    <p class="game-explanation" style="text-align: justify;">
-      <strong class="important">Navodila za igro:</strong> Uporabi <strong>puščice na tipkovnici</strong>,
-       da premakneš ploščice. Ko se ploščici z isto številko dotakneta, se <strong>združita v eno!</strong>
-    </p>
+%rebase("base.html")
+<div class="container">
+  <div>
+    <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
+    <form style="float: right;" method = "post" action = "/odjava/" class="inline">
+      <input type = "hidden">
+      <button type = "submit" class = "link-button">Odjava</button>
+    </form>  
   </div>
-</body>
-</html>
+  
+  <div class="heading">
+    <h1 class="title">2048</h1>
+    <div class="scores-container">
+      <div class="score-container">{{ stTock }}</div>
+      <div class="best-container">{{ maxStTock }}</div>
+    </div>
+  </div>
+
+  <div class="above-game">
+    <p class="game-intro">Združuj številke in pridi do <strong>ploščice 2048!</strong></p>
+    <a href="/igra/izbira_velikosti/" class="restart-button">Nova igra</a>
+  </div>
+
+  <div class="game-container">
+    <div class="game-message">
+      <p></p>
+      <div class="lower">
+        <a class="keep-playing-button">Keep going</a>
+        <a class="retry-button">Try again</a>
+      </div>
+    </div>
+    <div style="z-index: 1;">
+      <div class="grid-container" style="filter: blur(4px);">
+          %for i in range(velikost):
+          <div class="grid-row-{{velikost}}">
+              %for j in range(velikost):
+              %if tabela[i][j] == 0:
+                  <div class="grid-cell-{{velikost}}"></div>
+              %elif tabela[i][j] > 2048:
+                  <div class="grid-cell-{{velikost}}">
+                    <div class="tile-super-{{velikost}}">{{ tabela[i][j] }}</div>
+                  </div>
+              %else:
+                  <div class="grid-cell-{{velikost}}">
+                    <div class="tile-{{tabela[i][j]}}-{{velikost}}">{{ tabela[i][j] }}</div>
+                  </div>
+              %end
+              %end
+          </div>
+          %end
+      </div>
+      <div class = "watermark">
+          <div style="font-size: 30px;color: black;"><strong>KONEC IGRE</strong><br>
+              Dosegli ste {{stTock}} točk.</div>
+      </div>
+  </div>
+
+    <div class="tile-container">
+
+    </div>
+  </div>
+
+  <p class="game-explanation" style="text-align: justify;">
+    <strong class="important">Navodila za igro:</strong> Uporabi <strong>puščice na tipkovnici</strong>,
+      da premakneš ploščice. Ko se ploščici z isto številko dotakneta, se <strong>združita v eno!</strong>
+  </p>
+</div>
