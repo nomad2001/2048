@@ -150,7 +150,7 @@ def pokazi_igro():
     else:
         return bottle.template("igra.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                         stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
+maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
                                 velikost = igreRazred.igre[uporabnisko_ime].velikost)
 
 @bottle.post("/igraj/")
@@ -191,7 +191,7 @@ def lestvica(velikost, zacetek, konec):
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
     lestvica = uporabnikiRazred.dobi_lestvico(velikost)
     trenutnoMesto = lestvica.index((uporabnisko_ime, 
-                            uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(velikost)]))
+                        uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(velikost)]))
     return bottle.template(
         "lestvica.html", zacetek = zacetek, konec = konec, lestvica = lestvica, mesto = trenutnoMesto + 1,
                         velikost = velikost
