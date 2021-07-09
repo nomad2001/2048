@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+  <script>function test() {$.ajax({url: "/igraj/prekini/",type:"POST",success: function(result){alert(result);}});}</script>
   <script>
     function myFunction() {
       document.getElementById("premik").click(); 
@@ -31,10 +33,10 @@
     <p style="color: red;">Za odjavo, lestvico in novo igro pritisnite na primeren gumb in nato tipko ENTER.
     Sicer med igro ne pritiskajte tipke ENTER!</p>
     <div>
-      <a href = "/lestvica/0-9/" style="text-align: left;">Lestvica</a>
+      <a href = "/lestvica/" style="text-align: left;">Lestvica</a>
       <form style="float: right;" method = "post" action = "/odjava/" class="inline">
         <input type = "hidden">
-        <button onclick="prekini()" type = "submit" class = "link-button">Odjava</button>
+        <button onclick="test()" type = "submit" class = "link-button">Odjava</button>
       </form>  
     </div>
 
