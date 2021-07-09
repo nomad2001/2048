@@ -139,14 +139,14 @@ class IgreRazred:
     
     def premakni(self, uporabnik, smer):
         igra = self.igre[uporabnik.uporabnisko_ime]
-        igra.premakni(smer)
+        konec = igra.premakni(smer)
 
         if igra.steviloTock > uporabnik.najboljsi_rezultati[str(igra.velikost)]:
             uporabnik.najboljsi_rezultati[str(igra.velikost)] = igra.steviloTock
 
         self.igre[uporabnik.uporabnisko_ime] = igra
 
-        if igra.konecIgre():
+        if konec == KONEC_IGRE:
             return True
         
         return False
@@ -167,9 +167,6 @@ class IgreRazred:
     @classmethod
     def dobi_iz_json_slovarja(cls, slovar):
         slovar_iger = {}
-
-    #    if len(slovar) == 0:
-     #       return IgreRazred(slovar_iger, 0)
 
         for uporabnisko_ime, igra_slovar in slovar.items():
             slovar_iger[uporabnisko_ime] = Igra.dobi_iz_json_slovarja(igra_slovar)
