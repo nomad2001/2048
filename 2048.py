@@ -99,12 +99,12 @@ def pred_igro():
 
     if uporabnisko_ime in igreRazred.igre.keys():
         return bottle.template(
-            "index.html", maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat,
+            "index.html", maxTocke = 0,
                             obstaja = True
         )
     else:
         return bottle.template(
-            "index.html", maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat,
+            "index.html", maxTocke = 0,
                             obstaja = False
         )
 
@@ -123,7 +123,7 @@ def izbira_velikosti():
     uporabnisko_ime = trenutni_uporabnik()
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
     return bottle.template("izbira_velikosti.html", 
-                            maxTocke = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+                            maxTocke = 0)
 
 #def dobi_smer():
  #   pygame.init()
@@ -173,7 +173,7 @@ def pokazi_igro():
     else:
         return bottle.template("igra.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                         stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat, \
+                            maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
                                 velikost = igreRazred.igre[uporabnisko_ime].velikost)
                             
 @bottle.post("/igraj/prekini/")
@@ -306,18 +306,23 @@ def konec_izgled():
     
     return bottle.template("konec.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                     stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat, \
+                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
                                 velikost = igreRazred.igre[uporabnisko_ime].velikost)
 
-@bottle.get("/lestvica/<zacetek:int>-<konec:int>/")
-def lestvica(zacetek, konec):
+@bottle.get("/lestvica/")
+def izberi_velikost_lestvice():
+    return bottle.template("izberi_velikost_lestvice.html")
+
+@bottle.get("/lestvica/<velikost>/<zacetek:int>-<konec:int>/")
+def lestvica(velikost, zacetek, konec):
     uporabnisko_ime = trenutni_uporabnik()
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
-    lestvica = uporabnikiRazred.dobi_lestvico()
+    lestvica = uporabnikiRazred.dobi_lestvico(velikost)
     trenutnoMesto = lestvica.index((uporabnisko_ime, 
-                                    uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultat))
+                            uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(velikost)]))
     return bottle.template(
-        "lestvica.html", zacetek = zacetek, konec = konec, lestvica = lestvica, mesto = trenutnoMesto + 1
+        "lestvica.html", zacetek = zacetek, konec = konec, lestvica = lestvica, mesto = trenutnoMesto + 1,
+                        velikost = velikost
         )
 
 bottle.run(reloader=True, debug=True)

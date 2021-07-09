@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>2048</title>
+
+  <link href="/views/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="/views/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div>
+            <a href="/igra/" style="text-align: left;"> Nazaj na igro</a>
+            <form style="float: right;" method = "post" action = "/odjava/" class="inline">
+                <input type = "hidden">
+                <button type = "submit" class = "link-button">Odjava</button>
+            </form>  
+        </div>
+        
+        <h1 style="text-align: center;">Večna lestvice najboljših</h1>
+        <a style="display: block; text-align: center; text-decoration: none;">
+            Izberite lestvico, ki si jo želite ogledati:
+        </a>
+        <div style="text-align:center;">
+            %for i in range(3, 9):
+            <a href="/lestvica/{{i}}/0-9/">Lestvica {{i}} &times {{i}} iger</a><br>
+            %end
+        </div>
+    </div>
+</body>
