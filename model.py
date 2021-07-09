@@ -38,16 +38,20 @@ class UporabnikiRazred:
         
         return UporabnikiRazred(uporabniki)
     
-    def dobi_lestvico(self):
-        lestvica = [(uporabnisko_ime, self.uporabniki[uporabnisko_ime].najboljsi_rezultat)
+    def dobi_lestvico(self, velikost):
+        lestvica = [(uporabnisko_ime, self.uporabniki[uporabnisko_ime].najboljsi_rezultati[velikost])
                         for uporabnisko_ime in self.uporabniki.keys()]
         return sorted(lestvica, key = lambda x:(-x[1]))
 
 class Uporabnik:
-    def __init__(self, uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultat):
+    def __init__(self, uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultati = None):
         self.uporabnisko_ime = uporabnisko_ime
         self.zasifrirano_geslo = zasifrirano_geslo
-        self.najboljsi_rezultat = najboljsi_rezultat
+
+        if najboljsi_rezultati == None:
+            self.najboljsi_rezultati = {"3" : 0, "4" : 0, "5" : 0, "6" : 0, "7" : 0, "8" : 0}
+        else:
+            self.najboljsi_rezultati = najboljsi_rezultati
     
     @staticmethod
     def prijava(uporabnisko_ime, geslo_v_cistopisu):
@@ -66,7 +70,7 @@ class Uporabnik:
             raise ValueError("Uporabniško ime že obstaja")
         else:
             zasifrirano_geslo = Uporabnik._zasifriraj_geslo(geslo_v_cistopisu)
-            uporabnik = Uporabnik(uporabnisko_ime, zasifrirano_geslo, 0)
+            uporabnik = Uporabnik(uporabnisko_ime, zasifrirano_geslo)
             return uporabnik
 
     def _zasifriraj_geslo(geslo_v_cistopisu, sol = None):
@@ -81,7 +85,7 @@ class Uporabnik:
         return {
             "uporabnisko_ime": self.uporabnisko_ime,
             "zasifrirano_geslo": self.zasifrirano_geslo,
-            "najboljsi_rezultat": self.najboljsi_rezultat,
+            "najboljsi_rezultati": self.najboljsi_rezultati,
         }
 
     def preveri_geslo(self, geslo_v_cistopisu):
@@ -92,8 +96,8 @@ class Uporabnik:
     def iz_slovarja(slovar):
         uporabnisko_ime = slovar["uporabnisko_ime"]
         zasifrirano_geslo = slovar["zasifrirano_geslo"]
-        najboljsi_rezultat = slovar["najboljsi_rezultat"]
-        return Uporabnik(uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultat)
+        najboljsi_rezultati = slovar["najboljsi_rezultati"]
+        return Uporabnik(uporabnisko_ime, zasifrirano_geslo, najboljsi_rezultati)
 
 def generirarajNakljucnoPozicijoInStevilo(velikost, tabela):
     stProstihMest = 0
@@ -137,8 +141,8 @@ class IgreRazred:
         igra = self.igre[uporabnik.uporabnisko_ime]
         igra.premakni(smer)
 
-        if igra.steviloTock > uporabnik.najboljsi_rezultat:
-            uporabnik.najboljsi_rezultat = igra.steviloTock
+        if igra.steviloTock > uporabnik.najboljsi_rezultati[str(igra.velikost)]:
+            uporabnik.najboljsi_rezultati[str(igra.velikost)] = igra.steviloTock
 
         self.igre[uporabnik.uporabnisko_ime] = igra
 
