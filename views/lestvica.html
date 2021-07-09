@@ -39,13 +39,13 @@
         </table>
         <div style="text-align:center;">
             %if zacetek != 0:
-            <a style="text-decoration: none;" href = "/lestvica/{{zacetek - 10}}-{{zacetek - 1}}/">
+            <a style="text-decoration: none;" href = "/lestvica/{{velikost}}/{{zacetek - 10}}-{{zacetek - 1}}/">
                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
             </a>
             %end
             {{zacetek + 1}}-{{min(konec + 1, len(lestvica))}} od {{len(lestvica)}}
             %if konec < len(lestvica) - 1:
-            <a style="text-decoration: none;" href = "/lestvica/{{konec + 1}}-{{konec + 10}}/">
+            <a style="text-decoration: none;" href = "/lestvica/{{velikost}}/{{konec + 1}}-{{konec + 10}}/">
                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </a>
             %end
