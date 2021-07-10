@@ -127,7 +127,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-/sifra.txt
-/podatki.json
-/uporabniki.json
