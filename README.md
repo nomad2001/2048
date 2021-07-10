@@ -18,7 +18,7 @@ pa lahko igro nadaljuješ in poskusiš sestaviti bloke s čim večjimi številka
 
 Preden lahko začnete igrati igro 2048, morate imeti nameščen Python na svojem
 računalniku. Pojdite na spletno stran https://www.python.org/downloads/ in 
-sledite njihovim navodilom. V Python ni ob naložitvi vgrajene nobene knjižnice, 
+sledite njihovim navodilom. V Python ni ob naložitvi vgrajena nobena knjižnica, 
 ki zna spremljati, kaj vnašate s tipkovnico, zato morate dodato naložiti Pythonovo
 knjižnico pynput. Odprite ukazni poziv (navodila za odpiranje glejte spodaj) in
 vtipkajte ukaz "pip install pynput". S tem boste naložili potrebno knjižnico.
