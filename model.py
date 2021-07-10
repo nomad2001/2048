@@ -9,6 +9,10 @@ LEVO = 'L'
 DESNO = 'R'
 KONEC_IGRE = 'E'
 NEOBSTOJECA_SMER = 'N'
+ZMAGA = 'Z'
+NI_SE_ZMAGAL = 0
+ZMAGAL = 1
+ZE_PREJ_ZMAGAL = 2
 
 DATOTEKA_ZA_SHRANJEVANJE = "podatki.json"
 DATOTEKA_ZA_UPORABNIKE = "uporabniki.json"
@@ -181,9 +185,10 @@ class IgreRazred:
         return IgreRazred.dobi_iz_json_slovarja(json_slovar)
 
 class Igra:
-    def __init__(self, velikost = 4, tabela = None, steviloTock = 0):
+    def __init__(self, velikost = 4, tabela = None, steviloTock = 0, stanje = NI_SE_ZMAGAL):
         self.velikost = velikost
         self.steviloTock = steviloTock
+        self.stanje = stanje
 
         if tabela == None:
             self.tabela = [[0 for i in range(velikost)] for i in range(velikost)]
@@ -357,6 +362,13 @@ class Igra:
         
         return False
     
+    def zmaga(self):
+        for i in range(self.velikost):
+            for j in range(self.velikost):
+                if self.tabela[i][j] == 2048:
+                    return True
+        return False
+    
     def premakni(self, smer):
         if smer == GOR:
             if self.premakniGor():
@@ -375,17 +387,22 @@ class Igra:
         
         if self.konecIgre():
             return KONEC_IGRE
+
+        if self.zmaga() and self.stanje == NI_SE_ZMAGAL:
+            self.stanje = ZMAGAL
+            return ZMAGA
     
     def pretvor_v_json_slovar(self):
         return {
             "tocke": self.steviloTock,
             "velikost": self.velikost,
-            "tabela": self.tabela
+            "tabela": self.tabela,
+            "stanje": self.stanje
         }
 
     @staticmethod
     def dobi_iz_json_slovarja(slovar):
-        return Igra(slovar["velikost"], slovar["tabela"], slovar["tocke"])
+        return Igra(slovar["velikost"], slovar["tabela"], slovar["tocke"], slovar["stanje"])
     
 def nova_igra(velikost):
     return Igra(velikost)
