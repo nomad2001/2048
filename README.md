@@ -9,7 +9,7 @@
 Igra 2048 je preplavila svet leta 2014. Igra se tako, da se po tabeli
 premikajo ploščice s številkami v različnih smereh. Enaki številki, če ni nobene 
 druge med njima, se seštejeta v svojega dvakratnika in združita v eno ploščico. 
-Če uspeš sestaviti blok s številko 2048 si zmagal. Tudi po zmagi pa lahko igro 
+Če uspeš sestaviti blok s številko 2048, si zmagal. Tudi po zmagi pa lahko igro 
 nadaljuješ in poskusiš sestaviti bloke s čim večjimi številkami (večjimi od 2048).
 
 ## Navodila za namestitev Pythona
