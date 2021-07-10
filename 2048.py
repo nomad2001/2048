@@ -1,3 +1,4 @@
+from argparse import BooleanOptionalAction
 import bottle
 import model
 from pynput import keyboard
@@ -143,7 +144,9 @@ def pokazi_igro():
     uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
 
     if igreRazred.igre[uporabnisko_ime].konecIgre():
-        return bottle.redirect("/konec/")
+        bottle.redirect("/konec/")
+    elif igreRazred.igre[uporabnisko_ime].stanje == model.ZMAGAL:
+        bottle.redirect("/zmaga/")
     else:
         return bottle.template("igra.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                         stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
@@ -166,6 +169,19 @@ def igraj():
         igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
         uporabnikiRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_UPORABNIKE)
         bottle.redirect("/igraj/")
+
+@bottle.get("/zmaga/")
+def zmaga():
+    uporabnisko_ime = trenutni_uporabnik()
+    igreRazred = model.IgreRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_SHRANJEVANJE)
+    uporabnikiRazred = model.UporabnikiRazred.preberi_iz_datoteke(model.DATOTEKA_ZA_UPORABNIKE)
+    igreRazred.igre[uporabnisko_ime].stanje = model.ZE_PREJ_ZMAGAL
+    igreRazred.zapisi_v_datoteko(model.DATOTEKA_ZA_SHRANJEVANJE)
+    
+    return bottle.template("zmaga.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
+                stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
+maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
+                            velikost = igreRazred.igre[uporabnisko_ime].velikost)
     
 @bottle.get("/konec/")
 def konec_izgled():
@@ -175,7 +191,7 @@ def konec_izgled():
     
     return bottle.template("konec.html", tabela = igreRazred.igre[uporabnisko_ime].tabela, \
                     stTock = igreRazred.igre[uporabnisko_ime].steviloTock, \
-                        maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
+maxStTock = uporabnikiRazred.uporabniki[uporabnisko_ime].najboljsi_rezultati[str(igreRazred.igre[uporabnisko_ime].velikost)], \
                                 velikost = igreRazred.igre[uporabnisko_ime].velikost)
 
 @bottle.get("/lestvica/")
