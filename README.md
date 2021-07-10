@@ -20,7 +20,7 @@ Preden lahko začnete igrati igro 2048, morate imeti nameščen Python na svojem
 računalniku. Pojdite na spletno stran https://www.python.org/downloads/ in 
 sledite njihovim navodilom. V Python ni ob naložitvi vgrajene nobene knjižnice, 
 ki zna spremljati, kaj vnašate s tipkovnico, zato morate dodato naložiti Pythonovo
-knjižnico pynput. Odprite ukazni poziv (navodila za odpiranje glej spodaj) in
+knjižnico pynput. Odprite ukazni poziv (navodila za odpiranje glejte spodaj) in
 vtipkajte ukaz "pip install pynput". S tem boste naložili potrebno knjižnico.
 
 ## Navodila za namestitev in zagon igre
@@ -30,12 +30,13 @@ in izberite "Download ZIP". Naložila se bo ZIP datoteka z imenom "2048-main".
 Ekstrahirajte vse datoteke iz te ZIP datoteke v neko novo mapo. Ko odprete
 novo mapo z ekstrahiranimi podatki, se bo pojavila mapa z imenom "2048-main".
 Odprite tudi to mapo in kopirajte pot, do datotek, ki jih vidite (pot je
-navadno prikazana pri vrhu okna z datotekami). Nato odprite ukazni poziv in 
-vtipkajte ukaz "cd pot", kjer je pot tista, ki ste jo pred tem kopirali. Pot, 
-ki ste jo kopirali, lahko prilepite z zaporednim stiskom na tipke "CTRL" in "V". 
-Nato pritisnite "ENTER". Ko ste s tem končali, vtipkajte še ukaz "2048.py" in 
-pritisnite "ENTER". Povezavo, ki se prikaže (podobna mora biti http://127.0.0.1:8080/), 
-prepišite v okence za iskanje v svojem spletnem brskalniku. Odprlo se bo okence s prijavo.
+navadno prikazana pri vrhu okna z datotekami). Nato odprite ukazni poziv 
+(navodila za odpiranje glejte spodaj) in vtipkajte ukaz "cd pot", kjer je pot 
+tista, ki ste jo pred tem kopirali. Pot, ki ste jo kopirali, lahko prilepite 
+z zaporednim stiskom na tipke "CTRL" in "V". Nato pritisnite "ENTER". Ko ste 
+s tem končali, vtipkajte še ukaz "2048.py" in pritisnite "ENTER". Povezavo, ki 
+se prikaže (podobna mora biti http://127.0.0.1:8080/), prepišite v okence za 
+iskanje v svojem spletnem brskalniku. Odprlo se bo okence s prijavo.
 
 ## Navodila za uporabo spletnega vmesnika
 
