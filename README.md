@@ -56,6 +56,11 @@ Vrednost nove ploščice se pribije k vašemu skupnemu številu točk.
 V vsakem trenutku lahko tekočo igro prekinete in začnete novo igro. Prav tako
 lahko dostopate do lestvice uspešnosti in se primerjate z drugimi uporabniki.
 
+## Navodila za zaustavitev programa
+
+Program zaustavite tako, da zaprete zavihek v spletnem brskalniku, na katerem se je
+izvajal program, in nato zaprete tudi ukazni poziv.
+
 ## Opomba
 
 Takoj, ko naložite igro, so že dodani nekateri izmišljeni uporabniki in njihovi
