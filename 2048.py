@@ -6,10 +6,7 @@ igreRazred = model.IgreRazred()
 uporabnikiRazred = model.UporabnikiRazred()
 prijavaPoRegistraciji = False
 prijavaPoOdjavi = False
-
-with open('sifra.txt') as datoteka:
-    COOKIE_SECRET = datoteka.read()
-
+COOKIE_SECRET = "bnupičgtfhg9rp8gret934t57thzergurg48thfrhreh8"
 PISKOTEK_UPORABNISKO_IME = "uporabnisko_ime"
 
 def trenutni_uporabnik():
