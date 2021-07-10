@@ -56,6 +56,14 @@ Vrednost nove ploščice se tudi pribije k vašemu skupnemu številu točk.
 V vsakem trenutku lahko trenutno igro prekinete in začnete novo igro. Prav tako
 lahko dostopate do lestvice uspešnosti in se primerjate z drugimi uporabniki.
 
+## Navodila za začetek igre
+
+Takoj na začetku igre so že dodani nekateri izmišljeni uporabniki in njihovi
+rezultati, ki jih lahko vidite na lestvici. Če želite pobrisati te uporabnike in
+rezultate, odprite datoteki "uporabniki.json" in "podatki.json" v mapi, ki ste jo 
+dobili z ekstrahiranjem. Iz teh datotek pobrišite vse podatke in pustite v njiju 
+le niz "{}" (brez narekovajev).
+
 ## Navodila za odpiranje ukaznega poziva
 
 * Če uporabljate Windows ga zaženete tako, da pritisnete skupaj Windows tipko 
