@@ -59,10 +59,10 @@ lahko dostopate do lestvice uspešnosti in se primerjate z drugimi uporabniki.
 ## Navodila za začetek igre
 
 Takoj na začetku igre so že dodani nekateri izmišljeni uporabniki in njihovi
-rezultati, ki jih lahko vidite na lestvici. Če želite pobrisati te uporabnike in
-rezultate, odprite datoteki "uporabniki.json" in "podatki.json" v mapi, ki ste jo 
-dobili z ekstrahiranjem. Iz teh datotek pobrišite vse podatke in pustite v njiju 
-le niz "{}" (brez narekovajev).
+rezultati, da bi lahko videli, kako deluje lestvica. Če želite pobrisati te 
+uporabnike in rezultate, odprite datoteki "uporabniki.json" in "podatki.json" 
+v mapi, ki ste jo dobili z ekstrahiranjem. Iz teh datotek pobrišite vse podatke 
+in pustite v njiju le niz "{}" (brez narekovajev).
 
 ## Navodila za odpiranje ukaznega poziva
 
